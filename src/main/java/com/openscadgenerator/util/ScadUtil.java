@@ -14,11 +14,23 @@ public class ScadUtil {
     }
 
     public static void generateScad(List<Shape<?>> shapes, String path, String filename) {
-        FileUtil.writeToFile(shapes.stream().map(shape -> shape.generate().content()).collect(Collectors.joining()),
-                FileUtil.getOrCreateFile(path, filename));
+        List<Shape<?>> invalidShapes = getInvalidShapes(shapes);
+        if (invalidShapes.isEmpty()) {
+            FileUtil.writeToFile(shapes.stream().map(shape -> shape.generate().content()).collect(Collectors.joining()),
+                    FileUtil.getOrCreateFile(path, filename));
+        }
+        else {
+            throw new RuntimeException(
+                    "invalid shapes: " + invalidShapes.stream().map(shape -> shape.generate().content()).collect(
+                            Collectors.joining()));
+        }
     }
 
     public static ScadString moveToPosition(Point3D point3D, ScadString scad) {
         return new ScadString("translate(" + point3D.toString() + "){" + scad.content() + "}");
+    }
+
+    private static List<Shape<?>> getInvalidShapes(List<Shape<?>> shapes) {
+        return shapes.stream().filter(Shape::isInvalid).collect(Collectors.toList());
     }
 }

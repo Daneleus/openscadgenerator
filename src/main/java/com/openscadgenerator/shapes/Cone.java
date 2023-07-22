@@ -79,6 +79,11 @@ public class Cone extends Shape<Cone> {
         }
     }
 
+    @Override public boolean isInvalid() {
+        //TODO
+        return false;
+    }
+
     private ScadString generateCone(double height, double diameterBottom, double diameterTop, long fragments) {
         return new ScadString(
                 String.format(Locale.ENGLISH, "cylinder(h=%.4f,d1=%.4f,d2=%.4f,$fn=%d);", height, diameterBottom,

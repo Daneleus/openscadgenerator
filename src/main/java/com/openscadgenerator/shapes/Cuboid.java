@@ -32,6 +32,11 @@ public class Cuboid extends Shape<Cuboid> {
         }
     }
 
+    @Override public boolean isInvalid() {
+        //TODO
+        return false;
+    }
+
     private ScadString generateCuboid() {
         return new ScadString(
                 String.format(Locale.ENGLISH, "cube(size=[%.4f,%.4f,%.4f],center=true);", getXLength().getValue(),

@@ -89,4 +89,9 @@ public class Prism extends Shape<Prism> {
         return this;
     }
 
+    @Override public boolean isInvalid() {
+        //TODO
+        return false;
+    }
+
 }

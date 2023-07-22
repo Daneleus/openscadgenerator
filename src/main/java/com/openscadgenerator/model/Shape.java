@@ -16,6 +16,8 @@ public abstract class Shape<T extends Shape<T>> {
         return position;
     }
 
+    public abstract boolean isInvalid();
+
     @SuppressWarnings("unchecked")
     public T position(Point3D position) {
         this.position = position;

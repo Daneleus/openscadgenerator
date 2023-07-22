@@ -57,4 +57,9 @@ public class Polyhedron extends Shape<Polyhedron> {
         this.points = points;
         return this;
     }
+
+    @Override public boolean isInvalid() {
+        //TODO
+        return false;
+    }
 }
