@@ -56,7 +56,7 @@ class PolyhedronTest {
     }
 
     @Test
-    void position() {
+    void test_position() {
         ScadString scadString = shapelist.get(1).generate();
         Assertions.assertEquals(
                 "translate([50.0,0.0,0.0]){polyhedron(points=[[0.0,0.0,0.0],[10.0,0.0,0.0],[0.0,10.0,0.0],[0.0,0.0,10.0]],faces=[[0,1,2],[0,1,3],[0,2,3],[1,2,3]]);}",
@@ -64,7 +64,7 @@ class PolyhedronTest {
     }
 
     @Test
-    void poyhedron() {
+    void test_poyhedron() {
         ScadString scadString = shapelist.get(0).generate();
         Assertions.assertEquals(
                 "polyhedron(points=[[0.0,0.0,0.0],[10.0,0.0,0.0],[0.0,10.0,0.0],[0.0,0.0,10.0]],faces=[[0,1,2],[0,1,3],[0,2,3],[1,2,3]]);",
@@ -72,7 +72,7 @@ class PolyhedronTest {
     }
 
     @Test
-    void poyhedron6Points() {
+    void test_poyhedron6Points() {
         ScadString scadString = shapelist.get(2).generate();
         Assertions.assertEquals(
                 "polyhedron(points=[[0.0,0.0,0.0],[10.0,0.0,0.0],[10.0,10.0,0.0],[0.0,10.0,0.0],[0.0,0.0,10.0],[10.0,10.0,10.0]],faces=[[0,1,2,3],[0,1,4],[0,3,4],[1,4,5],[1,2,5],[2,3,5],[3,4,5]]);",

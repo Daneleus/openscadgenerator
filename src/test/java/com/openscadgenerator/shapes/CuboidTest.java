@@ -36,19 +36,19 @@ class CuboidTest {
     }
 
     @Test
-    void cube() {
+    void test_cube() {
         ScadString scadString = shapelist.get(2).generate();
         Assertions.assertEquals("cube(size=[25.0000,25.0000,25.0000],center=true);", scadString.content());
     }
 
     @Test
-    void cuboid() {
+    void test_cuboid() {
         ScadString scadString = shapelist.get(0).generate();
         Assertions.assertEquals("cube(size=[10.0000,20.0000,40.0000],center=true);", scadString.content());
     }
 
     @Test
-    void position() {
+    void test_position() {
         ScadString scadString = shapelist.get(1).generate();
         Assertions.assertEquals("translate([1.0,2.0,3.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}",
                 scadString.content());

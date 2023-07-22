@@ -42,7 +42,7 @@ class PrismTest {
     }
 
     @Test
-    void arbitraryPoints() {
+    void test_arbitraryPoints() {
         ScadString scadString = shapelist.get(1).generate();
         Assertions.assertEquals(
                 "linear_extrude(100.0000){polygon(points=[[0.0,0.0],[5.0,0.0],[13.0,13.0],[0.0,7.0]]);}",
@@ -50,21 +50,21 @@ class PrismTest {
     }
 
     @Test
-    void height() {
+    void test_height() {
         ScadString scadString = shapelist.get(4).generate();
         Assertions.assertEquals("linear_extrude(35.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}",
                 scadString.content());
     }
 
     @Test
-    void nprism() {
+    void test_nprism() {
         ScadString scadString = shapelist.get(3).generate();
         Assertions.assertEquals("linear_extrude(100.0000){circle(d=35.0000, $fn=7);}",
                 scadString.content());
     }
 
     @Test
-    void position() {
+    void test_position() {
         ScadString scadString = shapelist.get(2).generate();
         Assertions.assertEquals(
                 "translate([1.0,2.0,3.0]){linear_extrude(100.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}}",
@@ -72,7 +72,7 @@ class PrismTest {
     }
 
     @Test
-    void prism() {
+    void test_prism() {
         ScadString scadString = shapelist.get(0).generate();
         Assertions.assertEquals("linear_extrude(100.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}",
                 scadString.content());

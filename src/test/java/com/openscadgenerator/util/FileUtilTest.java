@@ -19,7 +19,7 @@ class FileUtilTest {
     }
 
     @Test
-    void getOrCreateProductFile_path_filename() {
+    void test_getOrCreateProductFile_path_filename() {
         File testFile = FileUtil.getOrCreateFile(TEST_DIR, TEST_FILENAME);
         Assertions.assertNotNull(testFile);
         Assertions.assertTrue(testFile.isFile());

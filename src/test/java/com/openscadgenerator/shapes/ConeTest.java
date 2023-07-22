@@ -50,7 +50,7 @@ class ConeTest {
     }
 
     @Test
-    void cone() {
+    void test_cone() {
         Shape<Cone> cone = shapelist.get(5);
         ScadString scadString = cone.generate();
         Assertions.assertEquals("cylinder(h=100.0000,d1=50.0000,d2=35.0000,$fn=64);", scadString.content());
@@ -61,7 +61,7 @@ class ConeTest {
     }
 
     @Test
-    void coneCylinderTube() {
+    void test_coneCylinderTube() {
         Shape<Cone> cone = shapelist.get(4);
         ScadString scadString = cone.generate();
         Assertions.assertEquals(
@@ -74,7 +74,7 @@ class ConeTest {
     }
 
     @Test
-    void coneTube() {
+    void test_coneTube() {
         Shape<Cone> cone = shapelist.get(6);
         ScadString scadString = cone.generate();
         Assertions.assertEquals(
@@ -87,7 +87,7 @@ class ConeTest {
     }
 
     @Test
-    void coneTubeFragment() {
+    void test_coneTubeFragment() {
         Shape<Cone> cone = shapelist.get(8);
         ScadString scadString = cone.generate();
         Assertions.assertEquals(
@@ -100,7 +100,7 @@ class ConeTest {
     }
 
     @Test
-    void cylinder() {
+    void test_cylinder() {
         Shape<Cone> cone = shapelist.get(1);
         ScadString scadString = cone.generate();
         Assertions.assertEquals("cylinder(h=100.0000,d=50.0000,$fn=64);", scadString.content());
@@ -111,7 +111,7 @@ class ConeTest {
     }
 
     @Test
-    void cylinderConeTube() {
+    void test_cylinderConeTube() {
         Shape<Cone> cone = shapelist.get(3);
         ScadString scadString = cone.generate();
         Assertions.assertEquals(
@@ -124,7 +124,7 @@ class ConeTest {
     }
 
     @Test
-    void cylinderTube() {
+    void test_cylinderTube() {
         Shape<Cone> cone = shapelist.get(2);
         ScadString scadString = cone.generate();
         Assertions.assertEquals(
@@ -137,19 +137,19 @@ class ConeTest {
     }
 
     @Test
-    void default_values() {
+    void test_default_values() {
         ScadString scadString = shapelist.get(0).generate();
         Assertions.assertEquals("cylinder(h=100.0000,d=100.0000,$fn=64);", scadString.content());
     }
 
     @Test
-    void height() {
+    void test_height() {
         ScadString scadString = shapelist.get(7).generate();
         Assertions.assertEquals("cylinder(h=80.0000,d=100.0000,$fn=64);", scadString.content());
     }
 
     @Test
-    void position() {
+    void test_position() {
         ScadString scadString = shapelist.get(9).generate();
         Assertions.assertEquals("translate([1.0,2.0,3.0]){cylinder(h=100.0000,d=100.0000,$fn=64);}",
                 scadString.content());

@@ -13,7 +13,7 @@ import com.openscadgenerator.model.Point3D;
 class EuklidUtilTest {
 
     @Test
-    void getDistance() {
+    void test_getDistance() {
         Point3D point1 = new Point3D().x(3).y(4).z(5);
         Point3D point2 = new Point3D().x(-3).y(-4).z(5);
         double distance1 = EuklidUtil.getDistance(point1, point2);
@@ -22,7 +22,7 @@ class EuklidUtilTest {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
-    void getNearestPoint() {
+    void test_getNearestPoint() {
         Point3D origin = Point3D.ORIGIN;
         Point3D point1 = new Point3D().x(3).y(4).z(5);
         Point3D point2 = new Point3D().x(-3).y(-4).z(5);
@@ -38,7 +38,7 @@ class EuklidUtilTest {
     }
 
     @Test
-    void getOriginDistance() {
+    void test_getOriginDistance() {
         Point3D point1 = new Point3D().x(2).y(4).z(4);
         double distance1 = EuklidUtil.getOriginDistance(point1);
         Assertions.assertEquals(6.0, distance1);

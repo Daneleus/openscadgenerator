@@ -23,13 +23,13 @@ class ScadUtilTest {
     }
 
     @Test
-    void difference() {
+    void test_difference() {
         ScadString difference = ScadUtil.difference(new ScadString("minuent"), new ScadString("subtrahent"));
         Assertions.assertEquals("difference(){minuentsubtrahent}", difference.content());
     }
 
     @Test
-    void generateScad() {
+    void test_generateScad() {
         ScadUtil.generateScad(Arrays.asList(new Cone(), new Cuboid(), new Prism(), new Polyhedron()),
                 FileUtilTest.TEST_DIR,
                 FileUtilTest.TEST_FILENAME);
@@ -37,7 +37,7 @@ class ScadUtilTest {
     }
 
     @Test
-    void moveToPosition() {
+    void test_moveToPosition() {
         ScadString move = ScadUtil.moveToPosition(Point3D.ORIGIN, new ScadString("moved"));
         Assertions.assertEquals("translate([0.0,0.0,0.0]){moved}", move.content());
     }
