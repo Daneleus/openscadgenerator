@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.openscadgenerator.model.Diameter;
+import com.openscadgenerator.model.Fragments;
+import com.openscadgenerator.model.Height;
 import com.openscadgenerator.model.Point2D;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
@@ -34,8 +37,8 @@ class PrismTest {
         shapelist.add(new Prism().points(
                 Arrays.asList(Point2D.ORIGIN, new Point2D().x(5), new Point2D().x(13).y(13), new Point2D().y(7))));
         shapelist.add(new Prism().position(new Point3D().x(1).y(2).z(3)));
-        shapelist.add(new Prism().diameter(35).fragments(7));
-        shapelist.add(new Prism().height(35));
+        shapelist.add(new Prism().diameter(new Diameter().value(35)).fragments(new Fragments().value(7)));
+        shapelist.add(new Prism().height(new Height().value(35)));
     }
 
     @Test
@@ -56,7 +59,7 @@ class PrismTest {
     @Test
     void nprism() {
         ScadString scadString = shapelist.get(3).generate();
-        Assertions.assertEquals("linear_extrude(100.0000){circle(d=35.0000, $fn=7.0000);}",
+        Assertions.assertEquals("linear_extrude(100.0000){circle(d=35.0000, $fn=7);}",
                 scadString.content());
     }
 

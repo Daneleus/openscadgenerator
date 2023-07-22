@@ -6,39 +6,35 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import com.openscadgenerator.model.Diameter;
+import com.openscadgenerator.model.Fragments;
+import com.openscadgenerator.model.Height;
 import com.openscadgenerator.model.Point2D;
 import com.openscadgenerator.model.ScadString;
 import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
-//TODO use Objects instead primitive types
 @SuppressWarnings("unused")
 public class Prism extends Shape<Prism> {
-
-    public static double DIAMETER_DEFAULT = 25;
-
-    public static double FRAGMENTS_DEFAULT = 64;
-
-    public static double HEIGHT_DEFAULT = 100;
 
     public static List<Point2D> POINTS_DEFAULT =
             Arrays.asList(new Point2D().x(10), new Point2D().y(10), Point2D.ORIGIN);
 
-    private double diameter = DIAMETER_DEFAULT;
+    private Diameter diameter = Diameter.DEFAULT;
 
-    private double fragments = FRAGMENTS_DEFAULT;
+    private Fragments fragments = Fragments.DEFAULT;
 
-    private double height = HEIGHT_DEFAULT;
+    private Height height = Height.DEFAULT;
 
     private List<Point2D> points = POINTS_DEFAULT;
 
-    public Prism diameter(double diameter) {
+    public Prism diameter(Diameter diameter) {
         this.diameter = diameter;
         this.points = Collections.emptyList();
         return this;
     }
 
-    public Prism fragments(double fragments) {
+    public Prism fragments(Fragments fragments) {
         this.fragments = fragments;
         return this;
     }
@@ -56,12 +52,13 @@ public class Prism extends Shape<Prism> {
     private ScadString generatePrism() {
         if (getPoints().isEmpty()) {
             return new ScadString(
-                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){circle(d=%.4f, $fn=%.4f);}", getHeight(),
-                            getDiameter(), getFragments()));
+                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){circle(d=%.4f, $fn=%d);}",
+                            getHeight().getValue(),
+                            getDiameter().getValue(), getFragments().getValue()));
         }
         else {
             return new ScadString(
-                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){polygon(points=[%s]);}", getHeight(),
+                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){polygon(points=[%s]);}", getHeight().getValue(),
                             getPoints().stream().map(Point2D::toString).collect(Collectors.joining(","))));
         }
     }
@@ -70,19 +67,19 @@ public class Prism extends Shape<Prism> {
         return points;
     }
 
-    public double getHeight() {
+    public Height getHeight() {
         return height;
     }
 
-    public double getDiameter() {
+    public Diameter getDiameter() {
         return diameter;
     }
 
-    public double getFragments() {
+    public Fragments getFragments() {
         return fragments;
     }
 
-    public Prism height(double height) {
+    public Prism height(Height height) {
         this.height = height;
         return this;
     }
