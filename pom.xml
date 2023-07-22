@@ -12,6 +12,10 @@
 		<maven.compiler.source>19</maven.compiler.source>
 		<maven.compiler.target>19</maven.compiler.target>
 	</properties>
+	<build>
+		<sourceDirectory>src/main</sourceDirectory>
+		<testSourceDirectory>src/test</testSourceDirectory>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>
