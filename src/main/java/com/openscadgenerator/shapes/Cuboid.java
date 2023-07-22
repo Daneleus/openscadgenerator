@@ -2,28 +2,23 @@ package com.openscadgenerator.shapes;
 
 import java.util.Locale;
 
+import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.ScadString;
 import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
 @SuppressWarnings("unused")
 public class Cuboid extends Shape<Cuboid> {
-    public static double X_DEFAULT = 100;
+    private Length xLength = Length.DEFAULT;
 
-    public static double Y_DEFAULT = 100;
+    private Length yLength = Length.DEFAULT;
 
-    public static double Z_DEFAULT = 100;
+    private Length zLength = Length.DEFAULT;
 
-    private double x = X_DEFAULT;
-
-    private double y = Y_DEFAULT;
-
-    private double z = Z_DEFAULT;
-
-    public Cuboid cube(double a) {
-        this.x = a;
-        this.y = a;
-        this.z = a;
+    public Cuboid cube(Length length) {
+        this.xLength = length;
+        this.yLength = length;
+        this.zLength = length;
         return this;
     }
 
@@ -39,33 +34,34 @@ public class Cuboid extends Shape<Cuboid> {
 
     private ScadString generateCuboid() {
         return new ScadString(
-                String.format(Locale.ENGLISH, "cube(size=[%.4f,%.4f,%.4f],center=true);", getX(), getY(), getZ()));
+                String.format(Locale.ENGLISH, "cube(size=[%.4f,%.4f,%.4f],center=true);", getXLength().getValue(),
+                        getYLength().getValue(), getZLength().getValue()));
     }
 
-    public double getX() {
-        return x;
+    public Length getXLength() {
+        return xLength;
     }
 
-    public double getY() {
-        return y;
+    public Length getYLength() {
+        return yLength;
     }
 
-    public double getZ() {
-        return z;
+    public Length getZLength() {
+        return zLength;
     }
 
-    public Cuboid x(double x) {
-        this.x = x;
+    public Cuboid xLength(Length length) {
+        this.xLength = length;
         return this;
     }
 
-    public Cuboid y(double y) {
-        this.y = y;
+    public Cuboid yLength(Length length) {
+        this.yLength = length;
         return this;
     }
 
-    public Cuboid z(double z) {
-        this.z = z;
+    public Cuboid zLength(Length length) {
+        this.zLength = length;
         return this;
     }
 }

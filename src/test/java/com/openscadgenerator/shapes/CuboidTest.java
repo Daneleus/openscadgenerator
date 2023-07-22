@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
 import com.openscadgenerator.model.Shape;
@@ -28,9 +29,10 @@ class CuboidTest {
 
     @BeforeAll
     static void initShapes() {
-        shapelist.add(new Cuboid().x(10).y(20).z(40));
+        shapelist.add(new Cuboid().xLength(new Length().value(10)).yLength(new Length().value(20))
+                .zLength(new Length().value(40)));
         shapelist.add(new Cuboid().position(new Point3D().x(1).y(2).z(3)));
-        shapelist.add(new Cuboid().cube(25));
+        shapelist.add(new Cuboid().cube(new Length().value(25)));
     }
 
     @Test
