@@ -1,5 +1,6 @@
 package com.openscadgenerator.shapes;
 
+import java.util.Collections;
 import java.util.Locale;
 
 import com.openscadgenerator.model.Diameter;
@@ -79,16 +80,10 @@ public class Cone extends Shape<Cone> {
         }
     }
 
-    @Override public boolean isInvalid() {
-        return getDiameterBottom().getValue() <= 0
-               || getDiameterTop().getValue() <= 0
-               || getHeight().getValue() <= 0
-               || getInnerDiameterBottom().getValue() < 0
-               || getInnerDiameterTop().getValue() < 0
-               || getFragments().getValue() < 3
-               || getInnerFragments().getValue() < 3
-               || getDiameterBottom().getValue() < getInnerDiameterBottom().getValue()
-               || getDiameterTop().getValue() < getInnerDiameterTop().getValue();
+    private ScadString generateConeTube(double height, double diameterBottom, double diameterTop, long fragments,
+            double innerDiameterBottom, double innerDiameterTop, long innerFragments) {
+        return ScadUtil.differenceAll(generateCone(height, diameterBottom, diameterTop, fragments),
+                Collections.singletonList(generateCone(height, innerDiameterBottom, innerDiameterTop, innerFragments)));
     }
 
     public Diameter getDiameterBottom() {
@@ -125,10 +120,10 @@ public class Cone extends Shape<Cone> {
                         diameterTop, fragments));
     }
 
-    private ScadString generateConeTube(double height, double diameterBottom, double diameterTop, long fragments,
-            double innerDiameterBottom, double innerDiameterTop, long innerFragments) {
-        return ScadUtil.difference(generateCone(height, diameterBottom, diameterTop, fragments),
-                generateCone(height, innerDiameterBottom, innerDiameterTop, innerFragments));
+    private ScadString generateCylinderTube(double height, double diameter, long fragments, double innerDiameterBottom,
+            long innerFragments) {
+        return ScadUtil.differenceAll(generateCylinder(height, diameter, fragments),
+                Collections.singletonList(generateCylinder(height, innerDiameterBottom, innerFragments)));
     }
 
     private ScadString generateCylinder(double height, double diameter, long fragments) {
@@ -136,10 +131,16 @@ public class Cone extends Shape<Cone> {
                 String.format(Locale.ENGLISH, "cylinder(h=%.4f,d=%.4f,$fn=%d);", height, diameter, fragments));
     }
 
-    private ScadString generateCylinderTube(double height, double diameter, long fragments, double innerDiameterBottom,
-            long innerFragments) {
-        return ScadUtil.difference(generateCylinder(height, diameter, fragments),
-                generateCylinder(height, innerDiameterBottom, innerFragments));
+    @Override public boolean isInvalid() {
+        return getDiameterBottom().getValue() <= 0
+               && getDiameterTop().getValue() <= 0
+               || getHeight().getValue() <= 0
+               || getInnerDiameterBottom().getValue() < 0
+               || getInnerDiameterTop().getValue() < 0
+               || getFragments().getValue() < 3
+               || getInnerFragments().getValue() < 3
+               || getDiameterBottom().getValue() < getInnerDiameterBottom().getValue()
+               || getDiameterTop().getValue() < getInnerDiameterTop().getValue();
     }
 
     public Cone height(Height height) {

@@ -157,8 +157,8 @@ class ConeTest {
 
         Assertions.assertTrue(new Cone().height(new Height().value(0)).isInvalid());
 
-        Assertions.assertTrue(new Cone().diameterBottom(new Diameter().value(0)).isInvalid());
-        Assertions.assertTrue(new Cone().diameterTop(new Diameter().value(0)).isInvalid());
+        Assertions.assertFalse(new Cone().diameterBottom(new Diameter().value(0)).isInvalid());
+        Assertions.assertFalse(new Cone().diameterTop(new Diameter().value(0)).isInvalid());
         Assertions.assertTrue(new Cone().diameter(new Diameter().value(0)).isInvalid());
 
         Assertions.assertFalse(new Cone().innerDiameter(new Diameter().value(0)).isInvalid());

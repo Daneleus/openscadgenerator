@@ -10,8 +10,21 @@ import com.openscadgenerator.model.Shape;
 
 public class ScadUtil {
 
-    public static ScadString difference(ScadString minuent, ScadString subtrahent) {
-        return new ScadString("difference(){" + minuent.content() + "" + subtrahent.content() + "}");
+    public static ScadString differenceAll(ScadString minuent, List<ScadString> scadStrings) {
+        return new ScadString("difference(){" + minuent.content() + "" + unionAll(scadStrings).content() + "}");
+    }
+
+    public static ScadString unionAll(List<ScadString> scadStrings) {
+        if (scadStrings.size() == 0) {
+            return new ScadString("");
+        }
+        if (scadStrings.size() == 1) {
+            return scadStrings.get(0);
+        }
+        String[] union = { "union(){" };
+        scadStrings.forEach(scad -> union[0] += scad.content());
+
+        return new ScadString(union[0] + "}");
     }
 
     public static void generateScadFile(ScadString scadString, String path, String filename) {
@@ -42,4 +55,5 @@ public class ScadUtil {
     public static ScadString moveToPosition(Point3D point3D, ScadString scad) {
         return new ScadString("translate(" + point3D.toString() + "){" + scad.content() + "}");
     }
+
 }
