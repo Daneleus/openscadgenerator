@@ -33,8 +33,7 @@ public class Cuboid extends Shape<Cuboid> {
     }
 
     @Override public boolean isInvalid() {
-        //TODO
-        return false;
+        return xLength.getValue() <= 0 || yLength.getValue() <= 0 || zLength.getValue() <= 0;
     }
 
     private ScadString generateCuboid() {

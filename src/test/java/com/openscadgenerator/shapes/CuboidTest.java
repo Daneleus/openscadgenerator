@@ -54,4 +54,16 @@ class CuboidTest {
                 scadString.content());
     }
 
+    @Test
+    void test_isInvalid() {
+        Cuboid cuboid = new Cuboid();
+        Assertions.assertFalse(cuboid.isInvalid());
+        Cuboid cuboidX = new Cuboid().xLength(new Length().value(0));
+        Assertions.assertTrue(cuboidX.isInvalid());
+        Cuboid cuboidY = new Cuboid().yLength(new Length().value(0));
+        Assertions.assertTrue(cuboidY.isInvalid());
+        Cuboid cuboidZ = new Cuboid().zLength(new Length().value(0));
+        Assertions.assertTrue(cuboidZ.isInvalid());
+    }
+
 }

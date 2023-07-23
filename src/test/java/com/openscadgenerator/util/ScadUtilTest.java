@@ -3,11 +3,14 @@ package com.openscadgenerator.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
 import com.openscadgenerator.shapes.Cone;
@@ -34,6 +37,15 @@ class ScadUtilTest {
                 FileUtilTest.TEST_DIR,
                 FileUtilTest.TEST_FILENAME);
         Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
+    }
+
+    @Test
+    void test_generateScad_invalid() {
+        Executable ex =
+                () -> ScadUtil.generateScad(Collections.singletonList(new Cuboid().xLength(new Length().value(0))),
+                        FileUtilTest.TEST_DIR,
+                        FileUtilTest.TEST_FILENAME);
+        Assertions.assertThrows(RuntimeException.class, ex);
     }
 
     @Test
