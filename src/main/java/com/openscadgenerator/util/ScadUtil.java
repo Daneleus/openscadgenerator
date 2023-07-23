@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.model.Shape;
+import com.openscadgenerator.shape.Shape;
 
 public class ScadUtil {
 

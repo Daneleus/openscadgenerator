@@ -7,7 +7,6 @@ import com.openscadgenerator.model.Diameter;
 import com.openscadgenerator.model.Fragments;
 import com.openscadgenerator.model.Height;
 import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
 @SuppressWarnings("unused")

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
 class CuboidTest {

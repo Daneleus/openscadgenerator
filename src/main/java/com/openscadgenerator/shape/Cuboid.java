@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
 @SuppressWarnings("unused")

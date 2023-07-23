@@ -14,7 +14,6 @@ import com.openscadgenerator.model.Fragments;
 import com.openscadgenerator.model.Height;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.model.Shape;
 import com.openscadgenerator.util.ScadUtil;
 
 class ConeTest {

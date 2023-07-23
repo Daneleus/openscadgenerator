@@ -1,4 +1,7 @@
-package com.openscadgenerator.model;
+package com.openscadgenerator.shape;
+
+import com.openscadgenerator.model.Point3D;
+import com.openscadgenerator.model.ScadString;
 
 @SuppressWarnings("unused")
 public abstract class Shape<T extends Shape<T>> {
