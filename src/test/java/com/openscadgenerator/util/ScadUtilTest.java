@@ -89,6 +89,52 @@ class ScadUtilTest {
     }
 
     @Test
+    void test_intersectionAll() {
+        Cuboid cuboid = new Cuboid().xLength(new Length().value(200)).yLength(new Length().value(200))
+                .zLength(new Length().value(20));
+        Cone cone = new Cone().diameter(new Diameter().value(50));
+        Cone cone1 = new Cone().diameterBottom(new Diameter().value(80)).diameterTop(new Diameter().value(0));
+        ScadString differenceAll =
+                ScadUtil.intersectionAll(Stream.of(cuboid, cone, cone1).map(
+                        Shape::generate).collect(
+                        Collectors.toList()));
+        ScadUtil.generateScadFile(
+                differenceAll, "src\\test\\samples", "intersectionAllTest.scad");
+        Assertions.assertEquals(
+                "intersection(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}",
+                differenceAll.content());
+
+    }
+
+    @Test
+    void test_rotate_axis() {
+        Cuboid cuboid = new Cuboid().xLength(new Length().value(100)).yLength(new Length().value(100))
+                .zLength(new Length().value(100));
+        ScadString rotate =
+                ScadUtil.rotate(cuboid.generate(), new Point3D().z(45));
+        ScadUtil.generateScadFile(
+                rotate, "src\\test\\samples", "rotateAxisTest.scad");
+        Assertions.assertEquals(
+                "rotate(a=[0.0,0.0,45.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}",
+                rotate.content());
+
+    }
+
+    @Test
+    void test_rotate_vector() {
+        Cuboid cuboid = new Cuboid().xLength(new Length().value(100)).yLength(new Length().value(100))
+                .zLength(new Length().value(100));
+        ScadString rotate =
+                ScadUtil.rotate(cuboid.generate(), new Point3D().z(1), 45);
+        ScadUtil.generateScadFile(
+                rotate, "src\\test\\samples", "rotateVectorTest.scad");
+        Assertions.assertEquals(
+                "rotate(a=45.0, v=[0.0,0.0,1.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}",
+                rotate.content());
+
+    }
+
+    @Test
     void test_moveToPosition() {
         ScadString move = ScadUtil.moveToPosition(Point3D.ORIGIN, new ScadString("moved"));
         Assertions.assertEquals("translate([0.0,0.0,0.0]){moved}", move.content());
@@ -129,23 +175,5 @@ class ScadUtilTest {
         Assertions.assertEquals(
                 "union(){union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);translate([80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}}cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}",
                 unionAllAndOne.content());
-    }
-
-    @Test
-    void test_intersectionAll() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(200)).yLength(new Length().value(200))
-                .zLength(new Length().value(20));
-        Cone cone = new Cone().diameter(new Diameter().value(50));
-        Cone cone1 = new Cone().diameterBottom(new Diameter().value(80)).diameterTop(new Diameter().value(0));
-        ScadString differenceAll =
-                ScadUtil.intersectionAll(Stream.of(cuboid, cone, cone1).map(
-                        Shape::generate).collect(
-                        Collectors.toList()));
-        ScadUtil.generateScadFile(
-                differenceAll, "src\\test\\samples", "intersectionAllTest.scad");
-        Assertions.assertEquals(
-                "intersection(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}",
-                differenceAll.content());
-
     }
 }

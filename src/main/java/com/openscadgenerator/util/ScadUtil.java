@@ -27,13 +27,6 @@ public class ScadUtil {
         return new ScadString(union[0] + "}");
     }
 
-    public static ScadString intersectionAll(List<ScadString> scadStrings) {
-        String[] intersection = { "intersection(){" };
-        scadStrings.forEach(scad -> intersection[0] += scad.content());
-
-        return new ScadString(intersection[0] + "}");
-    }
-
     public static void generateScadFile(ScadString scadString, String path, String filename) {
         FileUtil.writeToFile(scadString.content(), FileUtil.getOrCreateFile(path, filename));
     }
@@ -59,8 +52,43 @@ public class ScadUtil {
         return shapes.stream().filter(Shape::isInvalid).collect(Collectors.toList());
     }
 
+    public static ScadString intersectionAll(List<ScadString> scadStrings) {
+        String[] intersection = { "intersection(){" };
+        scadStrings.forEach(scad -> intersection[0] += scad.content());
+
+        return new ScadString(intersection[0] + "}");
+    }
+
     public static ScadString moveToPosition(Point3D point3D, ScadString scad) {
         return new ScadString("translate(" + point3D.toString() + "){" + scad.content() + "}");
+    }
+
+    public static ScadString rotate(ScadString scadString, Point3D rotateAxis, double angle) {
+
+        return new ScadString("rotate(a="
+                              + angle
+                              + ", v=["
+                              + rotateAxis.getX()
+                              + ","
+                              + rotateAxis.getY()
+                              + ","
+                              + rotateAxis.getZ()
+                              + "]){"
+                              + scadString.content()
+                              + "}");
+    }
+
+    public static ScadString rotate(ScadString scadString, Point3D angles) {
+
+        return new ScadString("rotate(a=["
+                              + angles.getX()
+                              + ","
+                              + angles.getY()
+                              + ","
+                              + angles.getZ()
+                              + "]){"
+                              + scadString.content()
+                              + "}");
     }
 
 }
