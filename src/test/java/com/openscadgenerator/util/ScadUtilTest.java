@@ -18,10 +18,10 @@ import com.openscadgenerator.model.Length;
 import com.openscadgenerator.model.Point3D;
 import com.openscadgenerator.model.ScadString;
 import com.openscadgenerator.model.Shape;
-import com.openscadgenerator.shapes.Cone;
-import com.openscadgenerator.shapes.Cuboid;
-import com.openscadgenerator.shapes.Polyhedron;
-import com.openscadgenerator.shapes.Prism;
+import com.openscadgenerator.shape.Cone;
+import com.openscadgenerator.shape.Cuboid;
+import com.openscadgenerator.shape.Polyhedron;
+import com.openscadgenerator.shape.Prism;
 
 class ScadUtilTest {
 

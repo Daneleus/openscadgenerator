@@ -1,4 +1,4 @@
-package com.openscadgenerator.shapes;
+package com.openscadgenerator.shape;
 
 import java.util.ArrayList;
 import java.util.Arrays;
