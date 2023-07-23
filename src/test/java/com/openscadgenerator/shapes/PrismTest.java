@@ -57,6 +57,19 @@ class PrismTest {
     }
 
     @Test
+    void test_isInvalid() {
+        Assertions.assertFalse(new Prism().isInvalid());
+        Assertions.assertTrue(new Prism().points(new ArrayList<>()).diameter(new Diameter().value(0)).isInvalid());
+        Assertions.assertTrue(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1)))
+                .diameter(new Diameter().value(0)).isInvalid());
+        Assertions.assertTrue(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1), new Point2D()))
+                .diameter(new Diameter().value(0)).isInvalid());
+        Assertions.assertFalse(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1), new Point2D()))
+                .isInvalid());
+        Assertions.assertFalse(new Prism().diameter(new Diameter()).isInvalid());
+    }
+
+    @Test
     void test_nprism() {
         ScadString scadString = shapelist.get(3).generate();
         Assertions.assertEquals("linear_extrude(100.0000){circle(d=35.0000, $fn=7);}",

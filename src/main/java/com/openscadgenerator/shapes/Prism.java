@@ -50,7 +50,7 @@ public class Prism extends Shape<Prism> {
     }
 
     private ScadString generatePrism() {
-        if (getPoints().isEmpty()) {
+        if (getPoints().size() < 3) {
             return new ScadString(
                     String.format(Locale.ENGLISH, "linear_extrude(%.4f){circle(d=%.4f, $fn=%d);}",
                             getHeight().getValue(),
@@ -79,6 +79,10 @@ public class Prism extends Shape<Prism> {
         return fragments;
     }
 
+    @Override public boolean isInvalid() {
+        return getPoints().size() < 3 && getDiameter().getValue() <= 0;
+    }
+
     public Prism height(Height height) {
         this.height = height;
         return this;
@@ -87,11 +91,6 @@ public class Prism extends Shape<Prism> {
     public Prism points(List<Point2D> points) {
         this.points = points;
         return this;
-    }
-
-    @Override public boolean isInvalid() {
-        //TODO
-        return false;
     }
 
 }
