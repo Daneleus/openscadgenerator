@@ -12,4 +12,5 @@ A Tool for generating .scad Code with Java
 ## How to use
 
 * create a shape(s) using any class of the "shapes"-package
+* use ScadUtil for common scad functions rotate, union, etc.
 * use ScadUtil.generateScadFile to get a .scad file to your filestorage

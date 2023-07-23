@@ -61,4 +61,9 @@ class PolyhedronTest {
                 scadString.content());
     }
 
+    @Test
+    void test_generate_invalid() {
+        Assertions.assertThrows(RuntimeException.class, () -> new Polyhedron().points(new ArrayList<>()).generate());
+    }
+
 }

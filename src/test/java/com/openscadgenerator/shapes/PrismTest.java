@@ -90,4 +90,9 @@ class PrismTest {
         Assertions.assertEquals("linear_extrude(100.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}",
                 scadString.content());
     }
+
+    @Test
+    void test_generate_invalid() {
+        Assertions.assertThrows(RuntimeException.class, () -> new Prism().diameter(new Diameter().value(0)).generate());
+    }
 }

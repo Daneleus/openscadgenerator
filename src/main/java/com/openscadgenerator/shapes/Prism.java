@@ -41,11 +41,16 @@ public class Prism extends Shape<Prism> {
 
     @Override
     public ScadString generate() {
+        ScadString scadString = generatePrism();
+        if (isInvalid()) {
+            throw new RuntimeException(
+                    "invalid shape: " + scadString.content());
+        }
         if (getPosition().isOrigin()) {
-            return generatePrism();
+            return scadString;
         }
         else {
-            return ScadUtil.moveToPosition(getPosition(), generatePrism());
+            return ScadUtil.moveToPosition(getPosition(), scadString);
         }
     }
 

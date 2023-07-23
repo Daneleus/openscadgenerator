@@ -36,20 +36,8 @@ public class ScadUtil {
     }
 
     public static void generateScadFile(List<Shape<?>> shapes, String path, String filename) {
-        List<Shape<?>> invalidShapes = getInvalidShapes(shapes);
-        if (invalidShapes.isEmpty()) {
-            FileUtil.writeToFile(shapes.stream().map(shape -> shape.generate().content()).collect(Collectors.joining()),
-                    FileUtil.getOrCreateFile(path, filename));
-        }
-        else {
-            throw new RuntimeException(
-                    "invalid shapes: " + invalidShapes.stream().map(shape -> shape.generate().content()).collect(
-                            Collectors.joining()));
-        }
-    }
-
-    private static List<Shape<?>> getInvalidShapes(List<Shape<?>> shapes) {
-        return shapes.stream().filter(Shape::isInvalid).collect(Collectors.toList());
+        FileUtil.writeToFile(shapes.stream().map(shape -> shape.generate().content()).collect(Collectors.joining()),
+                FileUtil.getOrCreateFile(path, filename));
     }
 
     public static ScadString intersectionAll(List<ScadString> scadStrings) {

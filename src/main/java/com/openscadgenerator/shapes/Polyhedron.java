@@ -31,15 +31,20 @@ public class Polyhedron extends Shape<Polyhedron> {
 
     @Override
     public ScadString generate() {
+        ScadString scadString = generatePolyhedron();
+        if (isInvalid()) {
+            throw new RuntimeException(
+                    "invalid shape: " + scadString.content());
+        }
         if (getPosition().isOrigin()) {
-            return generatePolyhedron();
+            return scadString;
         }
         else {
-            return ScadUtil.moveToPosition(getPosition(), generatePolyhedron());
+            return ScadUtil.moveToPosition(getPosition(), scadString);
         }
     }
 
-    public ScadString generatePolyhedron() {
+    private ScadString generatePolyhedron() {
         return new ScadString(String.format(Locale.ENGLISH, "polyhedron(points=[%s],faces=[%s]);",
                 getPoints().stream().map(Point3D::toString).collect(Collectors.joining(",")),
                 getFaces().stream().map(Face::toString).collect(Collectors.joining(","))));
@@ -59,7 +64,6 @@ public class Polyhedron extends Shape<Polyhedron> {
     }
 
     @Override public boolean isInvalid() {
-        //TODO
-        return false;
+        return getPoints().isEmpty() || getFaces().isEmpty();
     }
 }

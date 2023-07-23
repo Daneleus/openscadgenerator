@@ -24,11 +24,16 @@ public class Cuboid extends Shape<Cuboid> {
 
     @Override
     public ScadString generate() {
+        ScadString scadString = generateCuboid();
+        if (isInvalid()) {
+            throw new RuntimeException(
+                    "invalid shape: " + scadString.content());
+        }
         if (getPosition().isOrigin()) {
-            return generateCuboid();
+            return scadString;
         }
         else {
-            return ScadUtil.moveToPosition(getPosition(), generateCuboid());
+            return ScadUtil.moveToPosition(getPosition(), scadString);
         }
     }
 

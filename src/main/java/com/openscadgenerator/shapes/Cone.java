@@ -72,6 +72,11 @@ public class Cone extends Shape<Cone> {
                     generateCylinder(getHeight().getValue(), getDiameterBottom().getValue(), getFragments().getValue());
         }
 
+        if (isInvalid()) {
+            throw new RuntimeException(
+                    "invalid shape: " + scadString.content());
+        }
+
         if (getPosition().isOrigin()) {
             return scadString;
         }

@@ -66,4 +66,8 @@ class CuboidTest {
         Assertions.assertTrue(cuboidZ.isInvalid());
     }
 
+    @Test
+    void test_generate_invalid() {
+        Assertions.assertThrows(RuntimeException.class, () -> new Cuboid().xLength(new Length().value(0)).generate());
+    }
 }

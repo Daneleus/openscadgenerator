@@ -189,4 +189,9 @@ class ConeTest {
                 scadString.content());
     }
 
+    @Test
+    void test_generate_invalid() {
+        Assertions.assertThrows(RuntimeException.class, () -> new Cone().diameter(new Diameter().value(0)).generate());
+    }
+
 }
