@@ -8,10 +8,6 @@ public class Diameter {
 
     double value = VALUE_DEFAULT;
 
-    public boolean isNotZero() {
-        return this.getValue() != 0;
-    }
-
     public double getValue() {
         return value;
     }

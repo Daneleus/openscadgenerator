@@ -80,8 +80,43 @@ public class Cone extends Shape<Cone> {
     }
 
     @Override public boolean isInvalid() {
-        //TODO
-        return false;
+        return getDiameterBottom().getValue() <= 0
+               || getDiameterTop().getValue() <= 0
+               || getHeight().getValue() <= 0
+               || getInnerDiameterBottom().getValue() < 0
+               || getInnerDiameterTop().getValue() < 0
+               || getFragments().getValue() < 3
+               || getInnerFragments().getValue() < 3
+               || getDiameterBottom().getValue() < getInnerDiameterBottom().getValue()
+               || getDiameterTop().getValue() < getInnerDiameterTop().getValue();
+    }
+
+    public Diameter getDiameterBottom() {
+        return diameterBottom;
+    }
+
+    public Diameter getDiameterTop() {
+        return diameterTop;
+    }
+
+    public Height getHeight() {
+        return height;
+    }
+
+    public Diameter getInnerDiameterBottom() {
+        return innerDiameterBottom;
+    }
+
+    public Diameter getInnerDiameterTop() {
+        return innerDiameterTop;
+    }
+
+    public Fragments getFragments() {
+        return fragments;
+    }
+
+    public Fragments getInnerFragments() {
+        return innerFragments;
     }
 
     private ScadString generateCone(double height, double diameterBottom, double diameterTop, long fragments) {
@@ -105,34 +140,6 @@ public class Cone extends Shape<Cone> {
             long innerFragments) {
         return ScadUtil.difference(generateCylinder(height, diameter, fragments),
                 generateCylinder(height, innerDiameterBottom, innerFragments));
-    }
-
-    public Diameter getDiameterBottom() {
-        return diameterBottom;
-    }
-
-    public Diameter getDiameterTop() {
-        return diameterTop;
-    }
-
-    public Fragments getFragments() {
-        return fragments;
-    }
-
-    public Height getHeight() {
-        return height;
-    }
-
-    public Diameter getInnerDiameterBottom() {
-        return innerDiameterBottom;
-    }
-
-    public Diameter getInnerDiameterTop() {
-        return innerDiameterTop;
-    }
-
-    public Fragments getInnerFragments() {
-        return innerFragments;
     }
 
     public Cone height(Height height) {
@@ -178,14 +185,20 @@ public class Cone extends Shape<Cone> {
     }
 
     public boolean isTubeConic() {
-        return getInnerDiameterBottom().isNotZero()
-               && getInnerDiameterTop().isNotZero()
+        Diameter diameter1 = getInnerDiameterBottom();
+        if (!(diameter1.getValue() != 0))
+            return false;
+        Diameter diameter = getInnerDiameterTop();
+        return diameter.getValue() != 0
                && getInnerDiameterBottom() != getInnerDiameterTop();
     }
 
     public boolean isTubeCylindric() {
-        return getInnerDiameterBottom().isNotZero()
-               && getInnerDiameterTop().isNotZero()
+        Diameter diameter1 = getInnerDiameterBottom();
+        if (!(diameter1.getValue() != 0))
+            return false;
+        Diameter diameter = getInnerDiameterTop();
+        return diameter.getValue() != 0
                && getInnerDiameterBottom() == getInnerDiameterTop();
     }
 

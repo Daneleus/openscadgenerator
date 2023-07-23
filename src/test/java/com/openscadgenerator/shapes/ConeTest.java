@@ -149,6 +149,40 @@ class ConeTest {
     }
 
     @Test
+    void test_isInvalid() {
+        Assertions.assertFalse(new Cone().isInvalid());
+
+        Assertions.assertFalse(new Cone().fragments(new Fragments().value(3)).isInvalid());
+        Assertions.assertTrue(new Cone().fragments(new Fragments().value(2)).isInvalid());
+
+        Assertions.assertTrue(new Cone().height(new Height().value(0)).isInvalid());
+
+        Assertions.assertTrue(new Cone().diameterBottom(new Diameter().value(0)).isInvalid());
+        Assertions.assertTrue(new Cone().diameterTop(new Diameter().value(0)).isInvalid());
+        Assertions.assertTrue(new Cone().diameter(new Diameter().value(0)).isInvalid());
+
+        Assertions.assertFalse(new Cone().innerDiameter(new Diameter().value(0)).isInvalid());
+        Assertions.assertFalse(new Cone().innerDiameterBottom(new Diameter().value(0)).isInvalid());
+        Assertions.assertFalse(new Cone().innerDiameterTop(new Diameter().value(0)).isInvalid());
+        Assertions.assertTrue(new Cone().innerDiameter(new Diameter().value(-1)).isInvalid());
+        Assertions.assertTrue(new Cone().innerDiameterBottom(new Diameter().value(-1)).isInvalid());
+        Assertions.assertTrue(new Cone().innerDiameterTop(new Diameter().value(-1)).isInvalid());
+
+        Assertions.assertTrue(
+                new Cone().diameterBottom(new Diameter().value(1)).innerDiameterBottom(new Diameter().value(2))
+                        .isInvalid());
+        Assertions.assertFalse(
+                new Cone().diameterBottom(new Diameter().value(2)).innerDiameterBottom(new Diameter().value(1))
+                        .isInvalid());
+
+        Assertions.assertTrue(
+                new Cone().diameterTop(new Diameter().value(1)).innerDiameterTop(new Diameter().value(2)).isInvalid());
+        Assertions.assertFalse(
+                new Cone().diameterTop(new Diameter().value(2)).innerDiameterTop(new Diameter().value(1)).isInvalid());
+
+    }
+
+    @Test
     void test_position() {
         ScadString scadString = shapelist.get(9).generate();
         Assertions.assertEquals("translate([1.0,2.0,3.0]){cylinder(h=100.0000,d=100.0000,$fn=64);}",

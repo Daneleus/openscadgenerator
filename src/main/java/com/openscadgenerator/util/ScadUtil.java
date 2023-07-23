@@ -20,7 +20,6 @@ public class ScadUtil {
                     FileUtil.getOrCreateFile(path, filename));
         }
         else {
-            //TODO write Test
             throw new RuntimeException(
                     "invalid shapes: " + invalidShapes.stream().map(shape -> shape.generate().content()).collect(
                             Collectors.joining()));
