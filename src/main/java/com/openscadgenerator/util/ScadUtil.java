@@ -27,6 +27,13 @@ public class ScadUtil {
         return new ScadString(union[0] + "}");
     }
 
+    public static ScadString intersectionAll(List<ScadString> scadStrings) {
+        String[] intersection = { "intersection(){" };
+        scadStrings.forEach(scad -> intersection[0] += scad.content());
+
+        return new ScadString(intersection[0] + "}");
+    }
+
     public static void generateScadFile(ScadString scadString, String path, String filename) {
         FileUtil.writeToFile(scadString.content(), FileUtil.getOrCreateFile(path, filename));
     }
