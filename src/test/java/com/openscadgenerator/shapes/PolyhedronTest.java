@@ -23,7 +23,7 @@ class PolyhedronTest {
     @AfterAll
     static void generateTestFile() {
         double[] xPos = { 0 };
-        ScadUtil.generateScad(
+        ScadUtil.generateScadFile(
                 shapelist.stream().map(shape -> shape.position(new Point3D().x(xPos[0] += 100)))
                         .collect(Collectors.toList()), "src\\test\\samples", "polyhedronTest.scad");
     }

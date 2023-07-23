@@ -32,8 +32,24 @@ class ScadUtilTest {
     }
 
     @Test
-    void test_generateScad() {
-        ScadUtil.generateScad(Arrays.asList(new Cone(), new Cuboid(), new Prism(), new Polyhedron()),
+    void test_generateScadFileScadString() {
+        ScadUtil.generateScadFile(new Cone().generate(),
+                FileUtilTest.TEST_DIR,
+                FileUtilTest.TEST_FILENAME);
+        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
+    }
+
+    @Test
+    void test_generateScadFileShapeList() {
+        ScadUtil.generateScadFile(Arrays.asList(new Cone(), new Cuboid(), new Prism(), new Polyhedron()),
+                FileUtilTest.TEST_DIR,
+                FileUtilTest.TEST_FILENAME);
+        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
+    }
+
+    @Test
+    void test_generateScadFileSingleShape() {
+        ScadUtil.generateScadFile(new Cone(),
                 FileUtilTest.TEST_DIR,
                 FileUtilTest.TEST_FILENAME);
         Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
@@ -42,7 +58,7 @@ class ScadUtilTest {
     @Test
     void test_generateScad_invalid() {
         Executable ex =
-                () -> ScadUtil.generateScad(Collections.singletonList(new Cuboid().xLength(new Length().value(0))),
+                () -> ScadUtil.generateScadFile(Collections.singletonList(new Cuboid().xLength(new Length().value(0))),
                         FileUtilTest.TEST_DIR,
                         FileUtilTest.TEST_FILENAME);
         Assertions.assertThrows(RuntimeException.class, ex);
