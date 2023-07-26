@@ -1,6 +1,5 @@
 package com.openscadgenerator.util;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.AfterAll;
@@ -27,16 +26,10 @@ class ScadUtilTest {
                 .zLength(new PositiveDecimalNumber(20));
         Cylinder cylinder = new Cylinder().diameter(new PositiveDecimalNumber(200));
         ScadString differenceAll = ScadUtil.difference(cuboid.generate(), cylinder.generate());
-        ScadUtil.generateScadFile(differenceAll, "src\\test\\samples", "differenceTest.scad");
+        FileUtil.writeScadStringToFile(differenceAll, "src\\test\\samples", "differenceTest");
         Assertions.assertEquals(
                 "difference(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=200.0000,$fn=100);}",
                 differenceAll.content());
-    }
-
-    @Test
-    void generateScadFile() {
-        ScadUtil.generateScadFile(new ScadString(""), FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
-        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
     }
 
     @Test
@@ -45,7 +38,7 @@ class ScadUtilTest {
         Cylinder cylinder = new Cylinder();
         ScadString differenceAll =
                 ScadUtil.intersection(cube.generate(), cylinder.generate());
-        ScadUtil.generateScadFile(differenceAll, "src\\test\\samples", "intersectionTest.scad");
+        FileUtil.writeScadStringToFile(differenceAll, "src\\test\\samples", "intersectionTest");
         Assertions.assertEquals(
                 "intersection(){cube(size=100.0000,center=true);cylinder(h=100.0000,d=100.0000,$fn=100);}",
                 differenceAll.content());
@@ -60,7 +53,7 @@ class ScadUtilTest {
     @Test
     void rotate_vector() {
         ScadString rotate = ScadUtil.rotate(new Cube().generate(), new Tupel3D(0, 0, 1), 45);
-        ScadUtil.generateScadFile(rotate, FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
+        FileUtil.writeScadStringToFile(rotate, FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
         Assertions.assertEquals("rotate(a=45.0, v=[0.0,0.0,1.0]){cube(size=100.0000,center=true);}", rotate.content());
     }
 
@@ -70,7 +63,7 @@ class ScadUtilTest {
                 .zLength(new PositiveDecimalNumber(20));
         Cylinder cylinder = new Cylinder();
         ScadString unionAll = ScadUtil.union(cuboid.generate(), cylinder.generate());
-        ScadUtil.generateScadFile(unionAll, "src\\test\\samples", "unionTest.scad");
+        FileUtil.writeScadStringToFile(unionAll, "src\\test\\samples", "unionTest");
         Assertions.assertEquals(
                 "union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=100.0000,$fn=100);}",
                 unionAll.content());

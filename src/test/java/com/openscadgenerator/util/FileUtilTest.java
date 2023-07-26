@@ -7,15 +7,25 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.openscadgenerator.scad.ScadString;
+
 class FileUtilTest {
 
     public static String TEST_DIR = "test";
 
-    public static String TEST_FILENAME = "test.test";
+    public static String TEST_FILENAME = "test";
+
+    public static String TEST_FILENAME_WITH_TYPE = "test.scad";
 
     @AfterAll
     static void cleanupFiles() throws InterruptedException, IOException {
         FileUtil.deleteDirectory(TEST_DIR);
+    }
+
+    @Test
+    void generateScadFile() {
+        FileUtil.writeScadStringToFile(new ScadString(""), FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
+        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME_WITH_TYPE).isFile());
     }
 
     @Test

@@ -9,10 +9,6 @@ public class ScadUtil {
         return new ScadString("difference(){" + minuent.content() + "" + subtrahent.content() + "}");
     }
 
-    public static void generateScadFile(ScadString scadString, String path, String filename) {
-        FileUtil.writeToFile(scadString.content(), FileUtil.getOrCreateFile(path, filename));
-    }
-
     public static ScadString intersection(ScadString scadString1, ScadString scadString2) {
         return new ScadString("intersection(){" + scadString1.content() + "" + scadString2.content() + "}");
     }

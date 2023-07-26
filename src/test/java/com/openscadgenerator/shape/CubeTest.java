@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
-import com.openscadgenerator.util.ScadUtil;
+import com.openscadgenerator.util.FileUtil;
 
 class CubeTest {
 
     @Test
     void defaultValues() {
         ScadString scadString = new Cube().generate();
-        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "cube_default.scad");
+        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cube_default");
         Assertions.assertEquals("cube(size=100.0000,center=true);", scadString.content());
     }
 
@@ -24,7 +24,7 @@ class CubeTest {
     @Test
     void length() {
         ScadString scadString = new Cube().length(new PositiveDecimalNumber(50)).generate();
-        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "cube_Length.scad");
+        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cube_Length");
         Assertions.assertEquals("cube(size=50.0000,center=true);", scadString.content());
     }
 }
