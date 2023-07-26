@@ -1,210 +1,69 @@
 package com.openscadgenerator.shape;
 
-import java.util.Collections;
 import java.util.Locale;
 
-import com.openscadgenerator.model.Diameter;
-import com.openscadgenerator.model.Fragments;
-import com.openscadgenerator.model.Height;
-import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.util.ScadUtil;
+import com.openscadgenerator.number.DecimalNumber;
+import com.openscadgenerator.number.Greater2IntegerNumber;
+import com.openscadgenerator.number.IntegerNumber;
+import com.openscadgenerator.number.NotNegativeDecimalNumber;
+import com.openscadgenerator.number.PositiveDecimalNumber;
+import com.openscadgenerator.scad.ScadString;
 
-@SuppressWarnings("unused")
 public class Cone extends Shape<Cone> {
 
-    private Diameter diameterBottom = Diameter.DEFAULT;
+    private DecimalNumber diameterBottom = new NotNegativeDecimalNumber(100);
 
-    private Diameter diameterTop = Diameter.DEFAULT;
+    private DecimalNumber diameterTop = new NotNegativeDecimalNumber(0);
 
-    private Fragments fragments = Fragments.DEFAULT;
+    private IntegerNumber fragments = Greater2IntegerNumber.DEFAULT;
 
-    private Height height = Height.DEFAULT;
+    private DecimalNumber height = PositiveDecimalNumber.DEFAULT;
 
-    private Diameter innerDiameterBottom = new Diameter().value(0);
-
-    private Diameter innerDiameterTop = new Diameter().value(0);
-
-    private Fragments innerFragments = Fragments.DEFAULT;
-
-    public Cone diameter(Diameter diameter) {
-        this.diameterBottom = diameter;
-        this.diameterTop = diameter;
+    public Cone diameterBottom(NotNegativeDecimalNumber diameterBottom) {
+        this.diameterBottom = diameterBottom;
         return this;
     }
 
-    public Cone diameterBottom(Diameter diameter) {
-        this.diameterBottom = diameter;
+    public Cone diameterTop(NotNegativeDecimalNumber diameterTop) {
+        this.diameterTop = diameterTop;
         return this;
     }
 
-    public Cone diameterTop(Diameter diameter) {
-        this.diameterTop = diameter;
-        return this;
-    }
-
-    public Cone fragments(Fragments fragments) {
+    public Cone fragments(Greater2IntegerNumber fragments) {
         this.fragments = fragments;
         return this;
     }
 
     @Override
-    public ScadString generate() {
-
-        ScadString scadString;
-
-        if (isConeTube()) {
-            scadString = generateConeTube(getHeight().getValue(), getDiameterBottom().getValue(),
-                    getDiameterTop().getValue(), getFragments().getValue(), getInnerDiameterBottom().getValue(),
-                    getInnerDiameterTop().getValue(), getInnerFragments().getValue());
-        }
-        else if (isCone()) {
-            scadString =
-                    generateCone(getHeight().getValue(), getDiameterBottom().getValue(), getDiameterTop().getValue(),
-                            getFragments().getValue());
-        }
-        else if (isCylinderTube()) {
-            scadString = generateCylinderTube(getHeight().getValue(), getDiameterBottom().getValue(),
-                    getFragments().getValue(), getInnerDiameterBottom().getValue(), getInnerFragments().getValue());
-        }
-        else {
-            scadString =
-                    generateCylinder(getHeight().getValue(), getDiameterBottom().getValue(), getFragments().getValue());
-        }
-
-        if (isInvalid()) {
-            throw new RuntimeException(
-                    "invalid shape: " + scadString.content());
-        }
-
-        if (getPosition().isOrigin()) {
-            return scadString;
-        }
-        else {
-            return ScadUtil.moveToPosition(getPosition(), scadString);
-        }
+    protected ScadString generateShape() {
+        return new ScadString(
+                String.format(Locale.ENGLISH, "cylinder(h=%.4f,d1=%.4f,d2=%.4f,$fn=%d);", getHeight().value(),
+                        getDiameterBottom().value(), getDiameterTop().value(), (long)getFragments().value()));
     }
 
-    private ScadString generateConeTube(double height, double diameterBottom, double diameterTop, long fragments,
-            double innerDiameterBottom, double innerDiameterTop, long innerFragments) {
-        return ScadUtil.differenceAll(generateCone(height, diameterBottom, diameterTop, fragments),
-                Collections.singletonList(generateCone(height, innerDiameterBottom, innerDiameterTop, innerFragments)));
+    @Override
+    public boolean isInvalid() {
+        return getDiameterBottom().value() <= 0 && getDiameterTop().value() <= 0;
     }
 
-    public Diameter getDiameterBottom() {
-        return diameterBottom;
-    }
-
-    public Diameter getDiameterTop() {
-        return diameterTop;
-    }
-
-    public Height getHeight() {
+    public DecimalNumber getHeight() {
         return height;
     }
 
-    public Diameter getInnerDiameterBottom() {
-        return innerDiameterBottom;
+    public DecimalNumber getDiameterBottom() {
+        return diameterBottom;
     }
 
-    public Diameter getInnerDiameterTop() {
-        return innerDiameterTop;
+    public DecimalNumber getDiameterTop() {
+        return diameterTop;
     }
 
-    public Fragments getFragments() {
+    public IntegerNumber getFragments() {
         return fragments;
     }
 
-    public Fragments getInnerFragments() {
-        return innerFragments;
-    }
-
-    private ScadString generateCone(double height, double diameterBottom, double diameterTop, long fragments) {
-        return new ScadString(
-                String.format(Locale.ENGLISH, "cylinder(h=%.4f,d1=%.4f,d2=%.4f,$fn=%d);", height, diameterBottom,
-                        diameterTop, fragments));
-    }
-
-    private ScadString generateCylinderTube(double height, double diameter, long fragments, double innerDiameterBottom,
-            long innerFragments) {
-        return ScadUtil.differenceAll(generateCylinder(height, diameter, fragments),
-                Collections.singletonList(generateCylinder(height, innerDiameterBottom, innerFragments)));
-    }
-
-    private ScadString generateCylinder(double height, double diameter, long fragments) {
-        return new ScadString(
-                String.format(Locale.ENGLISH, "cylinder(h=%.4f,d=%.4f,$fn=%d);", height, diameter, fragments));
-    }
-
-    @Override public boolean isInvalid() {
-        return getDiameterBottom().getValue() <= 0
-               && getDiameterTop().getValue() <= 0
-               || getHeight().getValue() <= 0
-               || getInnerDiameterBottom().getValue() < 0
-               || getInnerDiameterTop().getValue() < 0
-               || getFragments().getValue() < 3
-               || getInnerFragments().getValue() < 3
-               || getDiameterBottom().getValue() < getInnerDiameterBottom().getValue()
-               || getDiameterTop().getValue() < getInnerDiameterTop().getValue();
-    }
-
-    public Cone height(Height height) {
+    public Cone height(PositiveDecimalNumber height) {
         this.height = height;
         return this;
     }
-
-    public Cone innerDiameter(Diameter diameter) {
-        this.innerDiameterBottom = diameter;
-        this.innerDiameterTop = diameter;
-        return this;
-    }
-
-    public Cone innerDiameterBottom(Diameter diameter) {
-        this.innerDiameterBottom = diameter;
-        return this;
-    }
-
-    public Cone innerDiameterTop(Diameter diameter) {
-        this.innerDiameterTop = diameter;
-        return this;
-    }
-
-    public Cone innerFragments(Fragments fragments) {
-        this.innerFragments = fragments;
-        return this;
-    }
-
-    public boolean isCone() {
-        return getDiameterBottom() != getDiameterTop();
-    }
-
-    public boolean isConeTube() {
-        return isCone() && isTubeCylindric() || isTubeConic();
-    }
-
-    public boolean isCylinder() {
-        return getDiameterBottom() == getDiameterTop();
-    }
-
-    public boolean isCylinderTube() {
-        return isCylinder() && isTubeCylindric();
-    }
-
-    public boolean isTubeConic() {
-        Diameter diameter1 = getInnerDiameterBottom();
-        if (!(diameter1.getValue() != 0))
-            return false;
-        Diameter diameter = getInnerDiameterTop();
-        return diameter.getValue() != 0
-               && getInnerDiameterBottom() != getInnerDiameterTop();
-    }
-
-    public boolean isTubeCylindric() {
-        Diameter diameter1 = getInnerDiameterBottom();
-        if (!(diameter1.getValue() != 0))
-            return false;
-        Diameter diameter = getInnerDiameterTop();
-        return diameter.getValue() != 0
-               && getInnerDiameterBottom() == getInnerDiameterTop();
-    }
-
 }

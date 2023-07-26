@@ -1,98 +1,83 @@
 package com.openscadgenerator.shape;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import com.openscadgenerator.model.Diameter;
-import com.openscadgenerator.model.Fragments;
-import com.openscadgenerator.model.Height;
-import com.openscadgenerator.model.Point2D;
-import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.util.ScadUtil;
+import com.openscadgenerator.geometry.Tupel2D;
+import com.openscadgenerator.number.DecimalNumber;
+import com.openscadgenerator.number.Greater2IntegerNumber;
+import com.openscadgenerator.number.IntegerNumber;
+import com.openscadgenerator.number.PositiveDecimalNumber;
+import com.openscadgenerator.scad.ScadString;
 
-@SuppressWarnings("unused")
 public class Prism extends Shape<Prism> {
 
-    public static List<Point2D> POINTS_DEFAULT =
-            Arrays.asList(new Point2D().x(10), new Point2D().y(10), Point2D.ORIGIN);
+    public static List<Tupel2D> POINTS_DEFAULT = new ArrayList<>();
 
-    private Diameter diameter = Diameter.DEFAULT;
+    private DecimalNumber diameter = PositiveDecimalNumber.DEFAULT;
 
-    private Fragments fragments = Fragments.DEFAULT;
+    private IntegerNumber fragments = Greater2IntegerNumber.DEFAULT;
 
-    private Height height = Height.DEFAULT;
+    private DecimalNumber height = PositiveDecimalNumber.DEFAULT;
 
-    private List<Point2D> points = POINTS_DEFAULT;
+    private List<Tupel2D> points = POINTS_DEFAULT;
 
-    public Prism diameter(Diameter diameter) {
+    public Prism diameter(PositiveDecimalNumber diameter) {
         this.diameter = diameter;
         this.points = Collections.emptyList();
         return this;
     }
 
-    public Prism fragments(Fragments fragments) {
+    public Prism fragments(Greater2IntegerNumber fragments) {
         this.fragments = fragments;
         return this;
     }
 
     @Override
-    public ScadString generate() {
-        ScadString scadString = generatePrism();
-        if (isInvalid()) {
-            throw new RuntimeException(
-                    "invalid shape: " + scadString.content());
-        }
-        if (getPosition().isOrigin()) {
-            return scadString;
-        }
-        else {
-            return ScadUtil.moveToPosition(getPosition(), scadString);
-        }
-    }
-
-    private ScadString generatePrism() {
+    protected ScadString generateShape() {
         if (getPoints().size() < 3) {
             return new ScadString(
                     String.format(Locale.ENGLISH, "linear_extrude(%.4f){circle(d=%.4f, $fn=%d);}",
-                            getHeight().getValue(),
-                            getDiameter().getValue(), getFragments().getValue()));
+                            getHeight().value(),
+                            getDiameter().value(), getFragments().value()));
         }
         else {
             return new ScadString(
-                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){polygon(points=[%s]);}", getHeight().getValue(),
-                            getPoints().stream().map(Point2D::toString).collect(Collectors.joining(","))));
+                    String.format(Locale.ENGLISH, "linear_extrude(%.4f){polygon(points=[%s]);}", getHeight().value(),
+                            getPoints().stream().map(Tupel2D::toString).collect(Collectors.joining(","))));
         }
     }
 
-    public List<Point2D> getPoints() {
+    public List<Tupel2D> getPoints() {
         return points;
     }
 
-    public Height getHeight() {
+    public DecimalNumber getHeight() {
         return height;
     }
 
-    public Diameter getDiameter() {
+    public DecimalNumber getDiameter() {
         return diameter;
     }
 
-    public Fragments getFragments() {
+    public IntegerNumber getFragments() {
         return fragments;
     }
 
-    @Override public boolean isInvalid() {
-        return getPoints().size() < 3 && getDiameter().getValue() <= 0;
+    @Override
+    public boolean isInvalid() {
+        return false;
     }
 
-    public Prism height(Height height) {
+    public Prism height(DecimalNumber height) {
         this.height = height;
         return this;
     }
 
-    public Prism points(List<Point2D> points) {
+    public Prism points(List<Tupel2D> points) {
         this.points = points;
         return this;
     }

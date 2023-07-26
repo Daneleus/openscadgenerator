@@ -1,82 +1,43 @@
 package com.openscadgenerator.util;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.openscadgenerator.model.Point3D;
-import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.shape.Shape;
+import com.openscadgenerator.geometry.Tupel3D;
+import com.openscadgenerator.scad.ScadString;
 
 public class ScadUtil {
 
-    public static ScadString differenceAll(ScadString minuent, List<ScadString> scadStrings) {
-        return new ScadString("difference(){" + minuent.content() + "" + unionAll(scadStrings).content() + "}");
-    }
-
-    public static ScadString unionAll(List<ScadString> scadStrings) {
-        if (scadStrings.size() == 0) {
-            return new ScadString("");
-        }
-        if (scadStrings.size() == 1) {
-            return scadStrings.get(0);
-        }
-        String[] union = { "union(){" };
-        scadStrings.forEach(scad -> union[0] += scad.content());
-
-        return new ScadString(union[0] + "}");
+    public static ScadString difference(ScadString minuent, ScadString subtrahent) {
+        return new ScadString("difference(){" + minuent.content() + "" + subtrahent.content() + "}");
     }
 
     public static void generateScadFile(ScadString scadString, String path, String filename) {
         FileUtil.writeToFile(scadString.content(), FileUtil.getOrCreateFile(path, filename));
     }
 
-    public static void generateScadFile(Shape<?> shape, String path, String filename) {
-        generateScadFile(Collections.singletonList(shape), path, filename);
+    public static ScadString intersection(ScadString scadString1, ScadString scadString2) {
+        return new ScadString("intersection(){" + scadString1.content() + "" + scadString2.content() + "}");
     }
 
-    public static void generateScadFile(List<Shape<?>> shapes, String path, String filename) {
-        FileUtil.writeToFile(shapes.stream().map(shape -> shape.generate().content()).collect(Collectors.joining()),
-                FileUtil.getOrCreateFile(path, filename));
+    public static ScadString moveToPosition(Tupel3D point3D, ScadString scadString) {
+        return new ScadString("translate(" + point3D + "){" + scadString.content() + "}");
     }
 
-    public static ScadString intersectionAll(List<ScadString> scadStrings) {
-        String[] intersection = { "intersection(){" };
-        scadStrings.forEach(scad -> intersection[0] += scad.content());
-
-        return new ScadString(intersection[0] + "}");
-    }
-
-    public static ScadString moveToPosition(Point3D point3D, ScadString scad) {
-        return new ScadString("translate(" + point3D.toString() + "){" + scad.content() + "}");
-    }
-
-    public static ScadString rotate(ScadString scadString, Point3D rotateAxis, double angle) {
+    public static ScadString rotate(ScadString scadString, Tupel3D rotateAxisVector, double angle) {
 
         return new ScadString("rotate(a="
                               + angle
                               + ", v=["
-                              + rotateAxis.getX()
+                              + rotateAxisVector.x()
                               + ","
-                              + rotateAxis.getY()
+                              + rotateAxisVector.y()
                               + ","
-                              + rotateAxis.getZ()
+                              + rotateAxisVector.z()
                               + "]){"
                               + scadString.content()
                               + "}");
     }
 
-    public static ScadString rotate(ScadString scadString, Point3D angles) {
-
-        return new ScadString("rotate(a=["
-                              + angles.getX()
-                              + ","
-                              + angles.getY()
-                              + ","
-                              + angles.getZ()
-                              + "]){"
-                              + scadString.content()
-                              + "}");
+    public static ScadString union(ScadString scadString1, ScadString scadString2) {
+        return new ScadString("union(){" + scadString1.content() + "" + scadString2.content() + "}");
     }
 
 }

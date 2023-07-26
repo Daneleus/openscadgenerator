@@ -2,73 +2,52 @@ package com.openscadgenerator.shape;
 
 import java.util.Locale;
 
-import com.openscadgenerator.model.Length;
-import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.util.ScadUtil;
+import com.openscadgenerator.number.DecimalNumber;
+import com.openscadgenerator.number.PositiveDecimalNumber;
+import com.openscadgenerator.scad.ScadString;
 
-@SuppressWarnings("unused")
 public class Cuboid extends Shape<Cuboid> {
-    private Length xLength = Length.DEFAULT;
+    private DecimalNumber xLength = PositiveDecimalNumber.DEFAULT;
 
-    private Length yLength = Length.DEFAULT;
+    private DecimalNumber yLength = new PositiveDecimalNumber(50);
 
-    private Length zLength = Length.DEFAULT;
-
-    public Cuboid cube(Length length) {
-        this.xLength = length;
-        this.yLength = length;
-        this.zLength = length;
-        return this;
-    }
+    private DecimalNumber zLength = new PositiveDecimalNumber(200);
 
     @Override
-    public ScadString generate() {
-        ScadString scadString = generateCuboid();
-        if (isInvalid()) {
-            throw new RuntimeException(
-                    "invalid shape: " + scadString.content());
-        }
-        if (getPosition().isOrigin()) {
-            return scadString;
-        }
-        else {
-            return ScadUtil.moveToPosition(getPosition(), scadString);
-        }
-    }
-
-    @Override public boolean isInvalid() {
-        return xLength.getValue() <= 0 || yLength.getValue() <= 0 || zLength.getValue() <= 0;
-    }
-
-    private ScadString generateCuboid() {
+    protected ScadString generateShape() {
         return new ScadString(
-                String.format(Locale.ENGLISH, "cube(size=[%.4f,%.4f,%.4f],center=true);", getXLength().getValue(),
-                        getYLength().getValue(), getZLength().getValue()));
+                String.format(Locale.ENGLISH, "cube(size=[%.4f,%.4f,%.4f],center=true);", getXLength().value(),
+                        getYLength().value(), getZLength().value()));
     }
 
-    public Length getXLength() {
+    public DecimalNumber getXLength() {
         return xLength;
     }
 
-    public Length getYLength() {
+    public DecimalNumber getYLength() {
         return yLength;
     }
 
-    public Length getZLength() {
+    public DecimalNumber getZLength() {
         return zLength;
     }
 
-    public Cuboid xLength(Length length) {
+    @Override
+    public boolean isInvalid() {
+        return false;
+    }
+
+    public Cuboid xLength(PositiveDecimalNumber length) {
         this.xLength = length;
         return this;
     }
 
-    public Cuboid yLength(Length length) {
+    public Cuboid yLength(PositiveDecimalNumber length) {
         this.yLength = length;
         return this;
     }
 
-    public Cuboid zLength(Length length) {
+    public Cuboid zLength(PositiveDecimalNumber length) {
         this.zLength = length;
         return this;
     }
