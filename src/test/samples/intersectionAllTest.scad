@@ -1,1 +1,0 @@
-intersection(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}

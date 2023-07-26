@@ -2,26 +2,17 @@ package com.openscadgenerator.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
-import com.openscadgenerator.model.Diameter;
-import com.openscadgenerator.model.Height;
-import com.openscadgenerator.model.Length;
-import com.openscadgenerator.model.Point3D;
-import com.openscadgenerator.model.ScadString;
-import com.openscadgenerator.shape.Cone;
+import com.openscadgenerator.geometry.Tupel3D;
+import com.openscadgenerator.number.PositiveDecimalNumber;
+import com.openscadgenerator.scad.ScadString;
+import com.openscadgenerator.shape.Cube;
 import com.openscadgenerator.shape.Cuboid;
-import com.openscadgenerator.shape.Polyhedron;
-import com.openscadgenerator.shape.Prism;
-import com.openscadgenerator.shape.Shape;
+import com.openscadgenerator.shape.Cylinder;
 
 class ScadUtilTest {
 
@@ -31,149 +22,57 @@ class ScadUtilTest {
     }
 
     @Test
-    void test_differenceAll() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(200)).yLength(new Length().value(200))
-                .zLength(new Length().value(20));
-        Cone cone = new Cone().diameter(new Diameter().value(50));
-        Cone cone1 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(80).y(80));
-        Cone cone2 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(80).y(-80));
-        Cone cone3 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(-80).y(-80));
-        Cone cone4 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(-80).y(80));
-        ScadString differenceAll =
-                ScadUtil.differenceAll(cuboid.generate(), Stream.of(cone, cone1, cone2, cone3, cone4).map(
-                        Shape::generate).collect(
-                        Collectors.toList()));
-        ScadUtil.generateScadFile(
-                differenceAll, "src\\test\\samples", "differenceAllTest.scad");
+    void difference() {
+        Cuboid cuboid = new Cuboid().xLength(new PositiveDecimalNumber(200)).yLength(new PositiveDecimalNumber(200))
+                .zLength(new PositiveDecimalNumber(20));
+        Cylinder cylinder = new Cylinder().diameter(new PositiveDecimalNumber(200));
+        ScadString differenceAll = ScadUtil.difference(cuboid.generate(), cylinder.generate());
+        ScadUtil.generateScadFile(differenceAll, "src\\test\\samples", "differenceTest.scad");
         Assertions.assertEquals(
-                "difference(){cube(size=[200.0000,200.0000,20.0000],center=true);union(){cylinder(h=100.0000,d=50.0000,$fn=64);translate([80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}}}",
+                "difference(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=200.0000,$fn=100);}",
                 differenceAll.content());
-
     }
 
     @Test
-    void test_generateScadFileScadString() {
-        ScadUtil.generateScadFile(new Cone().generate(),
-                FileUtilTest.TEST_DIR,
-                FileUtilTest.TEST_FILENAME);
+    void generateScadFile() {
+        ScadUtil.generateScadFile(new ScadString(""), FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
         Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
     }
 
     @Test
-    void test_generateScadFileShapeList() {
-        ScadUtil.generateScadFile(Arrays.asList(new Cone(), new Cuboid(), new Prism(), new Polyhedron()),
-                FileUtilTest.TEST_DIR,
-                FileUtilTest.TEST_FILENAME);
-        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
-    }
-
-    @Test
-    void test_generateScadFileSingleShape() {
-        ScadUtil.generateScadFile(new Cone(),
-                FileUtilTest.TEST_DIR,
-                FileUtilTest.TEST_FILENAME);
-        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME).isFile());
-    }
-
-    @Test
-    void test_generateScad_invalid() {
-        Executable ex =
-                () -> ScadUtil.generateScadFile(Collections.singletonList(new Cuboid().xLength(new Length().value(0))),
-                        FileUtilTest.TEST_DIR,
-                        FileUtilTest.TEST_FILENAME);
-        Assertions.assertThrows(RuntimeException.class, ex);
-    }
-
-    @Test
-    void test_intersectionAll() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(200)).yLength(new Length().value(200))
-                .zLength(new Length().value(20));
-        Cone cone = new Cone().diameter(new Diameter().value(50));
-        Cone cone1 = new Cone().diameterBottom(new Diameter().value(80)).diameterTop(new Diameter().value(0));
+    void intersection() {
+        Cube cube = new Cube();
+        Cylinder cylinder = new Cylinder();
         ScadString differenceAll =
-                ScadUtil.intersectionAll(Stream.of(cuboid, cone, cone1).map(
-                        Shape::generate).collect(
-                        Collectors.toList()));
-        ScadUtil.generateScadFile(
-                differenceAll, "src\\test\\samples", "intersectionAllTest.scad");
+                ScadUtil.intersection(cube.generate(), cylinder.generate());
+        ScadUtil.generateScadFile(differenceAll, "src\\test\\samples", "intersectionTest.scad");
         Assertions.assertEquals(
-                "intersection(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}",
+                "intersection(){cube(size=100.0000,center=true);cylinder(h=100.0000,d=100.0000,$fn=100);}",
                 differenceAll.content());
-
     }
 
     @Test
-    void test_rotate_axis() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(100)).yLength(new Length().value(100))
-                .zLength(new Length().value(100));
-        ScadString rotate =
-                ScadUtil.rotate(cuboid.generate(), new Point3D().z(45));
-        ScadUtil.generateScadFile(
-                rotate, "src\\test\\samples", "rotateAxisTest.scad");
+    void moveToPosition() {
+        ScadString move = ScadUtil.moveToPosition(new Tupel3D(1, 1, 1), new ScadString("moved"));
+        Assertions.assertEquals("translate([1.0,1.0,1.0]){moved}", move.content());
+    }
+
+    @Test
+    void rotate_vector() {
+        ScadString rotate = ScadUtil.rotate(new Cube().generate(), new Tupel3D(0, 0, 1), 45);
+        ScadUtil.generateScadFile(rotate, FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
+        Assertions.assertEquals("rotate(a=45.0, v=[0.0,0.0,1.0]){cube(size=100.0000,center=true);}", rotate.content());
+    }
+
+    @Test
+    void union() {
+        Cuboid cuboid = new Cuboid().xLength(new PositiveDecimalNumber(200)).yLength(new PositiveDecimalNumber(200))
+                .zLength(new PositiveDecimalNumber(20));
+        Cylinder cylinder = new Cylinder();
+        ScadString unionAll = ScadUtil.union(cuboid.generate(), cylinder.generate());
+        ScadUtil.generateScadFile(unionAll, "src\\test\\samples", "unionTest.scad");
         Assertions.assertEquals(
-                "rotate(a=[0.0,0.0,45.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}",
-                rotate.content());
-
-    }
-
-    @Test
-    void test_rotate_vector() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(100)).yLength(new Length().value(100))
-                .zLength(new Length().value(100));
-        ScadString rotate =
-                ScadUtil.rotate(cuboid.generate(), new Point3D().z(1), 45);
-        ScadUtil.generateScadFile(
-                rotate, "src\\test\\samples", "rotateVectorTest.scad");
-        Assertions.assertEquals(
-                "rotate(a=45.0, v=[0.0,0.0,1.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}",
-                rotate.content());
-
-    }
-
-    @Test
-    void test_moveToPosition() {
-        ScadString move = ScadUtil.moveToPosition(Point3D.ORIGIN, new ScadString("moved"));
-        Assertions.assertEquals("translate([0.0,0.0,0.0]){moved}", move.content());
-    }
-
-    @Test
-    void test_unionAll() {
-        Cuboid cuboid = new Cuboid().xLength(new Length().value(200)).yLength(new Length().value(200))
-                .zLength(new Length().value(20));
-        Cone cone = new Cone().diameter(new Diameter().value(50));
-        Cone cone1 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(80).y(80));
-        Cone cone2 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(80).y(-80));
-        Cone cone3 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(-80).y(-80));
-        Cone cone4 = new Cone().diameter(new Diameter().value(10)).height(new Height().value(100))
-                .position(new Point3D().x(-80).y(80));
-        ScadString unionAll =
-                ScadUtil.unionAll(Stream.of(cuboid, cone, cone1, cone2, cone3, cone4).map(
-                        Shape::generate).collect(
-                        Collectors.toList()));
-        ScadUtil.generateScadFile(
-                unionAll, "src\\test\\samples", "unionAllTest.scad");
-        Assertions.assertEquals(
-                "union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);translate([80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}}",
+                "union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=100.0000,$fn=100);}",
                 unionAll.content());
-
-        ScadString unionAllSelf = ScadUtil.unionAll(Collections.singletonList(unionAll));
-        Assertions.assertEquals(
-                "union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);translate([80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}}",
-                unionAllSelf.content());
-
-        ScadString unionAllAndOne = ScadUtil.unionAll(Arrays.asList(unionAllSelf,
-                new Cone().diameterBottom(new Diameter().value(80)).diameterTop(new Diameter().value(0)).generate()));
-        ScadUtil.generateScadFile(
-                unionAllAndOne, "src\\test\\samples", "unionAllAndOneTest.scad");
-        Assertions.assertEquals(
-                "union(){union(){cube(size=[200.0000,200.0000,20.0000],center=true);cylinder(h=100.0000,d=50.0000,$fn=64);translate([80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,-80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}translate([-80.0,80.0,0.0]){cylinder(h=100.0000,d=10.0000,$fn=64);}}cylinder(h=100.0000,d1=80.0000,d2=0.0000,$fn=64);}",
-                unionAllAndOne.content());
     }
 }

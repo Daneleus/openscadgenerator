@@ -1,1 +1,0 @@
-translate([100.0,0.0,0.0]){cube(size=[10.0000,20.0000,40.0000],center=true);}translate([200.0,0.0,0.0]){cube(size=[100.0000,100.0000,100.0000],center=true);}translate([300.0,0.0,0.0]){cube(size=[25.0000,25.0000,25.0000],center=true);}

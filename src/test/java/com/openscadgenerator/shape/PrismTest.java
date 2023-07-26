@@ -1,97 +1,62 @@
 package com.openscadgenerator.shape;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.openscadgenerator.model.Diameter;
-import com.openscadgenerator.model.Fragments;
-import com.openscadgenerator.model.Height;
-import com.openscadgenerator.model.Point2D;
-import com.openscadgenerator.model.Point3D;
-import com.openscadgenerator.model.ScadString;
+import com.openscadgenerator.geometry.Tupel2D;
+import com.openscadgenerator.number.Greater2IntegerNumber;
+import com.openscadgenerator.number.PositiveDecimalNumber;
+import com.openscadgenerator.scad.ScadString;
 import com.openscadgenerator.util.ScadUtil;
 
 class PrismTest {
 
-    static List<Shape<Prism>> shapelist = new ArrayList<>();
-
-    @AfterAll
-    static void generateTestFile() {
-        double[] xPos = { 0 };
-        ScadUtil.generateScadFile(
-                shapelist.stream().map(shape -> shape.position(new Point3D().x(xPos[0] += 100)))
-                        .collect(Collectors.toList()), "src\\test\\samples", "prismTest.scad");
-    }
-
-    @BeforeAll
-    static void initShapes() {
-        shapelist.add(new Prism());
-        shapelist.add(new Prism().points(
-                Arrays.asList(Point2D.ORIGIN, new Point2D().x(5), new Point2D().x(13).y(13), new Point2D().y(7))));
-        shapelist.add(new Prism().position(new Point3D().x(1).y(2).z(3)));
-        shapelist.add(new Prism().diameter(new Diameter().value(35)).fragments(new Fragments().value(7)));
-        shapelist.add(new Prism().height(new Height().value(35)));
+    @Test
+    void defaultValues() {
+        ScadString scadString = new Prism().generate();
+        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "prism_dafault.scad");
+        Assertions.assertEquals("linear_extrude(100.0000){circle(d=100.0000, $fn=100);}",
+                scadString.content());
     }
 
     @Test
-    void test_arbitraryPoints() {
-        ScadString scadString = shapelist.get(1).generate();
+    void diameter() {
+        ScadString scadString = new Prism().diameter(new PositiveDecimalNumber(50)).generate();
+        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "prism_diameter.scad");
+        Assertions.assertEquals("linear_extrude(100.0000){circle(d=50.0000, $fn=100);}",
+                scadString.content());
+    }
+
+    @Test
+    void fragments() {
+        ScadString scadString = new Prism().fragments(new Greater2IntegerNumber(3)).generate();
+        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "cone_fragments.scad");
+        Assertions.assertEquals("linear_extrude(100.0000){circle(d=100.0000, $fn=3);}", scadString.content());
+    }
+
+    @Test
+    void height() {
+        ScadString scadString = new Prism().height(new PositiveDecimalNumber(50)).generate();
+        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "prism_height.scad");
+        Assertions.assertEquals("linear_extrude(50.0000){circle(d=100.0000, $fn=100);}",
+                scadString.content());
+    }
+
+    @Test
+    void isInvalid() {
+        //TODO 3 Points in Line
+        Assertions.assertFalse(new Prism().isInvalid());
+    }
+
+    @Test
+    void points() {
+        ScadString scadString = new Prism().points(
+                Arrays.asList(Tupel2D.ORIGIN, new Tupel2D(5, 0), new Tupel2D(13, 13), new Tupel2D(0, 7))).generate();
+        ScadUtil.generateScadFile(scadString, "src\\test\\samples", "prism_points.scad");
         Assertions.assertEquals(
                 "linear_extrude(100.0000){polygon(points=[[0.0,0.0],[5.0,0.0],[13.0,13.0],[0.0,7.0]]);}",
                 scadString.content());
-    }
-
-    @Test
-    void test_height() {
-        ScadString scadString = shapelist.get(4).generate();
-        Assertions.assertEquals("linear_extrude(35.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}",
-                scadString.content());
-    }
-
-    @Test
-    void test_isInvalid() {
-        Assertions.assertFalse(new Prism().isInvalid());
-        Assertions.assertTrue(new Prism().points(new ArrayList<>()).diameter(new Diameter().value(0)).isInvalid());
-        Assertions.assertTrue(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1)))
-                .diameter(new Diameter().value(0)).isInvalid());
-        Assertions.assertTrue(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1), new Point2D()))
-                .diameter(new Diameter().value(0)).isInvalid());
-        Assertions.assertFalse(new Prism().points(Arrays.asList(new Point2D().x(1), new Point2D().y(1), new Point2D()))
-                .isInvalid());
-        Assertions.assertFalse(new Prism().diameter(new Diameter()).isInvalid());
-    }
-
-    @Test
-    void test_nprism() {
-        ScadString scadString = shapelist.get(3).generate();
-        Assertions.assertEquals("linear_extrude(100.0000){circle(d=35.0000, $fn=7);}",
-                scadString.content());
-    }
-
-    @Test
-    void test_position() {
-        ScadString scadString = shapelist.get(2).generate();
-        Assertions.assertEquals(
-                "translate([1.0,2.0,3.0]){linear_extrude(100.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}}",
-                scadString.content());
-    }
-
-    @Test
-    void test_prism() {
-        ScadString scadString = shapelist.get(0).generate();
-        Assertions.assertEquals("linear_extrude(100.0000){polygon(points=[[10.0,0.0],[0.0,10.0],[0.0,0.0]]);}",
-                scadString.content());
-    }
-
-    @Test
-    void test_generate_invalid() {
-        Assertions.assertThrows(RuntimeException.class, () -> new Prism().diameter(new Diameter().value(0)).generate());
     }
 }

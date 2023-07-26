@@ -4,52 +4,52 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import com.openscadgenerator.model.Point3D;
+import com.openscadgenerator.geometry.Tupel3D;
 
 public class EuklidUtil {
 
-    public static Optional<Point3D> getNearestPoint(Point3D point3D, List<Point3D> point3DList) {
+    public static Optional<Tupel3D> getNearestPoint(Tupel3D point3D, List<Tupel3D> point3DList) {
         return point3DList.stream().min(Comparator.comparingDouble(point -> getDistance(point3D, point)));
     }
 
-    public static Optional<Point3D> getNearestPointX(Point3D point3D, List<Point3D> point3DList) {
-        return point3DList.stream().min(Comparator.comparingDouble(point -> getDistanceX(point3D, point)));
-    }
-
-    public static double getDistanceX(Point3D point1, Point3D point2) {
-        double diffY = point1.getY() - point2.getY();
-        double diffZ = point1.getZ() - point2.getZ();
-        return Math.sqrt(diffY * diffY + diffZ * diffZ);
-    }
-
-    public static Optional<Point3D> getNearestPointY(Point3D point3D, List<Point3D> point3DList) {
-        return point3DList.stream().min(Comparator.comparingDouble(point -> getDistanceY(point3D, point)));
-    }
-
-    public static double getDistance(Point3D point1, Point3D point2) {
-        double diffX = point1.getX() - point2.getX();
-        double diffY = point1.getY() - point2.getY();
-        double diffZ = point1.getZ() - point2.getZ();
+    public static double getDistance(Tupel3D point1, Tupel3D point2) {
+        double diffX = point1.x() - point2.x();
+        double diffY = point1.y() - point2.y();
+        double diffZ = point1.z() - point2.z();
         return Math.sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
     }
 
-    public static double getDistanceY(Point3D point1, Point3D point2) {
-        double diffX = point1.getX() - point2.getX();
-        double diffZ = point1.getZ() - point2.getZ();
+    public static Optional<Tupel3D> getNearestPointX(Tupel3D point3D, List<Tupel3D> point3DList) {
+        return point3DList.stream().min(Comparator.comparingDouble(point -> getDistanceX(point3D, point)));
+    }
+
+    public static double getDistanceX(Tupel3D point1, Tupel3D point2) {
+        double diffY = point1.y() - point2.y();
+        double diffZ = point1.z() - point2.z();
+        return Math.sqrt(diffY * diffY + diffZ * diffZ);
+    }
+
+    public static Optional<Tupel3D> getNearestPointY(Tupel3D point3D, List<Tupel3D> point3DList) {
+        return point3DList.stream().min(Comparator.comparingDouble(point -> getDistanceY(point3D, point)));
+    }
+
+    public static double getDistanceY(Tupel3D point1, Tupel3D point2) {
+        double diffX = point1.x() - point2.x();
+        double diffZ = point1.z() - point2.z();
         return Math.sqrt(diffX * diffX + diffZ * diffZ);
     }
 
-    public static Optional<Point3D> getNearestPointZ(Point3D point3D, List<Point3D> point3DList) {
+    public static Optional<Tupel3D> getNearestPointZ(Tupel3D point3D, List<Tupel3D> point3DList) {
         return point3DList.stream().min(Comparator.comparingDouble(point -> getDistanceZ(point3D, point)));
     }
 
-    public static double getDistanceZ(Point3D point1, Point3D point2) {
-        double diffX = point1.getX() - point2.getX();
-        double diffY = point1.getY() - point2.getY();
+    public static double getDistanceZ(Tupel3D point1, Tupel3D point2) {
+        double diffX = point1.x() - point2.x();
+        double diffY = point1.y() - point2.y();
         return Math.sqrt(diffX * diffX + diffY * diffY);
     }
 
-    public static double getOriginDistance(Point3D point) {
-        return getDistance(point, Point3D.ORIGIN);
+    public static double getOriginDistance(Tupel3D point) {
+        return getDistance(point, Tupel3D.ORIGIN);
     }
 }
