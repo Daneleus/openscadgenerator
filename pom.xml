@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.openscadgenerator</groupId>
 	<artifactId>openscadgenerator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>openscadgenerator</name>
 	<description>A Tool for generating .scad Code with Java</description>
 	<properties>
