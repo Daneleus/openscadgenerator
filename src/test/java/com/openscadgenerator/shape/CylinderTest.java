@@ -6,35 +6,35 @@ import org.junit.jupiter.api.Test;
 import com.openscadgenerator.number.Greater2IntegerNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
-import com.openscadgenerator.util.FileUtil;
+import com.openscadgenerator.service.FileService;
 
 class CylinderTest {
 
     @Test
     void defaultValues() {
         ScadString scadString = new Cylinder().generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_default");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_default");
         Assertions.assertEquals("cylinder(h=100.0000,d=100.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void diameter() {
         ScadString scadString = new Cylinder().diameter(new PositiveDecimalNumber(50)).generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_diameter");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_diameter");
         Assertions.assertEquals("cylinder(h=100.0000,d=50.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void fragments() {
         ScadString scadString = new Cylinder().fragments(new Greater2IntegerNumber(3)).generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_fragments");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_fragments");
         Assertions.assertEquals("cylinder(h=100.0000,d=100.0000,$fn=3);", scadString.content());
     }
 
     @Test
     void height() {
         ScadString scadString = new Cylinder().height(new PositiveDecimalNumber(50)).generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_height");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_height");
         Assertions.assertEquals("cylinder(h=50.0000,d=100.0000,$fn=100);", scadString.content());
     }
 

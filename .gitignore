@@ -25,4 +25,5 @@ build/
 #IDEA
 .idea/
 
-#custom
+#Random SCAD
+src/test/samples/faces_auto_random.scad

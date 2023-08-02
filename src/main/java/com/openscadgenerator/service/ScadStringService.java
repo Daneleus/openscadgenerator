@@ -1,9 +1,9 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.scad.ScadString;
 
-public class ScadUtil {
+public class ScadStringService {
 
     public static ScadString difference(ScadString minuent, ScadString subtrahent) {
         return new ScadString("difference(){" + minuent.content() + "" + subtrahent.content() + "}");
