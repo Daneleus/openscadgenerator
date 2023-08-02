@@ -1,4 +1,4 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.openscadgenerator.geometry.Face;
 import com.openscadgenerator.geometry.Tupel3D;
 
-public class FaceUtil {
+public class PolyhedronService {
 
     public static List<Face> autoFacing(List<Tupel3D> points) {
         List<Face> autoFaces = new ArrayList<>();
@@ -23,7 +23,7 @@ public class FaceUtil {
                             continue;
                         }
                         double signum = Math.signum(
-                                VectorUtil.getFacePointDistance(points.get(i), points.get(j), points.get(k),
+                                VectorService.getFacePointDistance(points.get(i), points.get(j), points.get(k),
                                         points.get(l)));
                         if (signum > 0) {
                             countPositive++;

@@ -1,4 +1,4 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.scad.ScadString;
 import com.openscadgenerator.shape.Polyhedron;
 
-class FaceUtilTest {
+class PolyhedronServiceTest {
 
     @Test
     void autoFacesRandom() {
@@ -23,9 +23,9 @@ class FaceUtilTest {
                 new Tupel3D((Math.random() * Math.random() * 100) - Math.random() * 50,
                         (Math.random() * Math.random() * 100) - Math.random() * 50,
                         (Math.random() * Math.random() * 100) - Math.random() * 50)));
-        List<Face> autoFaces = FaceUtil.autoFacing(points);
+        List<Face> autoFaces = PolyhedronService.autoFacing(points);
         ScadString scadString = new Polyhedron().points(points).faces(autoFaces).generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto_random");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto_random");
     }
 
     @Test
@@ -50,9 +50,9 @@ class FaceUtilTest {
                 new Face(Arrays.asList(2, 3, 5)),
                 new Face(Arrays.asList(3, 4, 5))
         );
-        List<Face> autoFaces = FaceUtil.autoFacing(points);
+        List<Face> autoFaces = PolyhedronService.autoFacing(points);
         ScadString scadString = new Polyhedron().points(points).faces(autoFaces).generate();
-        FileUtil.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto");
         Assertions.assertEquals(new HashSet<>(faces), new HashSet<>(autoFaces));
     }
 

@@ -1,4 +1,4 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.openscadgenerator.scad.ScadString;
 
-public class FileUtil {
+public class FileService {
 
     static void deleteDirectory(String path) throws InterruptedException, IOException {
         for (int i = 0; i <= 10; i++) {

@@ -1,4 +1,4 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.openscadgenerator.scad.ScadString;
 
-class FileUtilTest {
+class FileServiceTest {
 
     public static String TEST_DIR = "test";
 
@@ -19,18 +19,19 @@ class FileUtilTest {
 
     @AfterAll
     static void cleanupFiles() throws InterruptedException, IOException {
-        FileUtil.deleteDirectory(TEST_DIR);
+        FileService.deleteDirectory(TEST_DIR);
     }
 
     @Test
     void generateScadFile() {
-        FileUtil.writeScadStringToFile(new ScadString(""), FileUtilTest.TEST_DIR, FileUtilTest.TEST_FILENAME);
-        Assertions.assertTrue(new File(FileUtilTest.TEST_DIR + "\\" + FileUtilTest.TEST_FILENAME_WITH_TYPE).isFile());
+        FileService.writeScadStringToFile(new ScadString(""), FileServiceTest.TEST_DIR, FileServiceTest.TEST_FILENAME);
+        Assertions.assertTrue(
+                new File(FileServiceTest.TEST_DIR + "\\" + FileServiceTest.TEST_FILENAME_WITH_TYPE).isFile());
     }
 
     @Test
     void test_getOrCreateProductFile_path_filename() {
-        File testFile = FileUtil.getOrCreateFile(TEST_DIR, TEST_FILENAME);
+        File testFile = FileService.getOrCreateFile(TEST_DIR, TEST_FILENAME);
         Assertions.assertNotNull(testFile);
         Assertions.assertTrue(testFile.isFile());
         Assertions.assertTrue(testFile.getPath().startsWith(TEST_DIR));

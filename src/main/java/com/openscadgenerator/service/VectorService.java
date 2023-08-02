@@ -1,4 +1,4 @@
-package com.openscadgenerator.util;
+package com.openscadgenerator.service;
 
 import java.util.Comparator;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import com.openscadgenerator.geometry.Tupel3D;
 
-public class VectorUtil {
+public class VectorService {
     static Tupel3D crossProduct(Tupel3D a, Tupel3D b) {
         return new Tupel3D(
                 a.y() * b.z() - a.z() * b.y(),
