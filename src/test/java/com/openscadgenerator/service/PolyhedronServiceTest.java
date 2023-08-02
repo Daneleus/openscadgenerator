@@ -38,7 +38,7 @@ class PolyhedronServiceTest {
                 new Tupel3D(0, 0, 10),
                 new Tupel3D(10, 10, 10)
         );
-        List<Face> faces = Arrays.asList(
+        List<Face> facesExpected = Arrays.asList(
                 new Face(Arrays.asList(0, 1, 2)),
                 new Face(Arrays.asList(0, 1, 3)),
                 new Face(Arrays.asList(0, 2, 3)),
@@ -53,7 +53,7 @@ class PolyhedronServiceTest {
         List<Face> autoFaces = PolyhedronService.autoFacing(points);
         ScadString scadString = new Polyhedron().points(points).faces(autoFaces).generate();
         FileService.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto");
-        Assertions.assertEquals(new HashSet<>(faces), new HashSet<>(autoFaces));
+        Assertions.assertEquals(new HashSet<>(facesExpected), new HashSet<>(autoFaces));
     }
 
 }

@@ -24,7 +24,7 @@ public class PolyhedronService {
                         }
                         double signum = Math.signum(
                                 VectorService.getFacePointDistance(points.get(i), points.get(j), points.get(k),
-                                        points.get(l)));
+                                        points.get(l)) + 100 - 100); //Underflow-Correction
                         if (signum > 0) {
                             countPositive++;
                         }
