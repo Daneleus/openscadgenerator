@@ -32,7 +32,7 @@ class PrismTest {
     @Test
     void fragments() {
         ScadString scadString = new Prism().fragments(new Greater2IntegerNumber(3)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_fragments");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "prism_fragments");
         Assertions.assertEquals("linear_extrude(100.0000){circle(d=100.0000, $fn=3);}", scadString.content());
     }
 
