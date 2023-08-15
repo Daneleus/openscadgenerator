@@ -7,7 +7,6 @@ class NotNegativeDecimalNumberTest {
 
     @Test
     void validate() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new NotNegativeDecimalNumber(-1),
-                "value must be not negative!");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NotNegativeDecimalNumber(-1));
     }
 }

@@ -13,6 +13,11 @@ class Tupel2DTest {
     }
 
     @Test
+    void convertTo3D(){
+        Assertions.assertEquals(new Tupel3D(1,2,0), new Tupel2D(1,2).convertTo3D());
+    }
+
+    @Test
     void to_String() {
         Assertions.assertEquals("[1.0,2.0]", new Tupel2D(1, 2).toString());
     }

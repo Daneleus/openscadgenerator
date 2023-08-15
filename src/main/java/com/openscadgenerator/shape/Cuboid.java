@@ -7,7 +7,7 @@ import com.openscadgenerator.number.DecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 
-public class Cuboid extends Shape<Cuboid> {
+public class Cuboid extends Shape {
     private DecimalNumber xLength = PositiveDecimalNumber.DEFAULT;
 
     private DecimalNumber yLength = new PositiveDecimalNumber(50);
@@ -29,11 +29,6 @@ public class Cuboid extends Shape<Cuboid> {
     @Override
     public boolean isInvalid() {
         return false;
-    }
-
-    @Override
-    public Cuboid getShape() {
-        return this;
     }
 
     public DecimalNumber getXLength() {

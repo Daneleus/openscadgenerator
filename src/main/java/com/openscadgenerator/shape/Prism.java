@@ -11,7 +11,7 @@ import com.openscadgenerator.number.DecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 
-public class Prism extends Shape<Prism> {
+public class Prism extends Shape {
 
     public static List<Tupel2D> POINTS_DEFAULT =
             Arrays.asList(new Tupel2D(100, 0), new Tupel2D(0, 100), new Tupel2D(-10, 0), new Tupel2D(0, -100));
@@ -35,11 +35,6 @@ public class Prism extends Shape<Prism> {
     @Override
     public boolean isInvalid() {
         return false;
-    }
-
-    @Override
-    public Prism getShape() {
-        return this;
     }
 
     public DecimalNumber getHeight() {

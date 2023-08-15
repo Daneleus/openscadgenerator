@@ -7,7 +7,6 @@ class PositiveDecimalNumberTest {
 
     @Test
     void validate() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new PositiveDecimalNumber(0),
-                "value must be positive!");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new PositiveDecimalNumber(0));
     }
 }

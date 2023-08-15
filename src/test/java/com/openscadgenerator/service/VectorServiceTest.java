@@ -108,8 +108,7 @@ class VectorServiceTest {
         Assertions.assertEquals(ex, VectorService.normVector(x));
         Assertions.assertEquals(ey, VectorService.normVector(y));
         Assertions.assertEquals(ez, VectorService.normVector(z));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> VectorService.normVector(Tupel3D.ORIGIN),
-                "vector has length 0!");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> VectorService.normVector(Tupel3D.ORIGIN));
     }
 
     @Test

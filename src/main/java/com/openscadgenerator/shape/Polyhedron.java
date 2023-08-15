@@ -11,7 +11,7 @@ import com.openscadgenerator.scad.ScadString;
 import com.openscadgenerator.service.PolyhedronService;
 import com.openscadgenerator.service.Tupel3DService;
 
-public class Polyhedron extends Shape<Polyhedron> {
+public class Polyhedron extends Shape {
 
     public static List<Tupel3D> POINTS_DEFAULT = Arrays.asList(
             Tupel3D.ORIGIN,
@@ -51,11 +51,6 @@ public class Polyhedron extends Shape<Polyhedron> {
     @Override
     public boolean isInvalid() {
         return getPoints().isEmpty() || getFaces().isEmpty();
-    }
-
-    @Override
-    public Polyhedron getShape() {
-        return this;
     }
 
     public List<Tupel3D> getPoints() {

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.openscadgenerator.geometry.Tupel2D;
+import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 import com.openscadgenerator.service.FileService;
@@ -45,5 +46,10 @@ class PrismTest {
         Assertions.assertEquals(
                 "linear_extrude(100.0000){polygon(points=[[0.0,0.0],[50.0,0.0],[130.0,130.0],[0.0,70.0]]);}",
                 scadString.content());
+    }
+
+    @Test
+    void getCenter() {
+        Assertions.assertEquals(new Tupel3D(0,0,50), new Prism().getCenter());
     }
 }

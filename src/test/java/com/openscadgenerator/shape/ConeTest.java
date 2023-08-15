@@ -3,6 +3,7 @@ package com.openscadgenerator.shape;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.number.Greater2IntegerNumber;
 import com.openscadgenerator.number.NotNegativeDecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
@@ -30,6 +31,11 @@ class ConeTest {
         ScadString scadString = new Cone().diameterTop(new NotNegativeDecimalNumber(50)).generate();
         FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneDiameterTop");
         Assertions.assertEquals("cylinder(h=100.0000,d1=100.0000,d2=50.0000,$fn=100);", scadString.content());
+    }
+
+    @Test
+    void getCenter() {
+        Assertions.assertEquals(new Tupel3D(0,0,50), new Cone().getCenter());
     }
 
     @Test
