@@ -54,4 +54,9 @@ class PolyhedronTest {
                 scadString.content());
     }
 
+    @Test
+    void getCenter() {
+        Assertions.assertEquals(new Tupel3D(5,5,5), new Polyhedron().getCenter());
+    }
+
 }

@@ -23,6 +23,14 @@ class FileServiceTest {
     }
 
     @Test
+    void deleteDirectory() throws IOException, InterruptedException {
+        File testFile = FileService.getOrCreateFile(TEST_DIR, TEST_FILENAME);
+        FileService.deleteDirectory(TEST_DIR);
+        Assertions.assertNotEquals(testFile.lastModified(),
+                FileService.getOrCreateFile(TEST_DIR, TEST_FILENAME).lastModified());
+    }
+
+    @Test
     void generateScadFile() {
         FileService.writeScadStringToFile(new ScadString(""), FileServiceTest.TEST_DIR, FileServiceTest.TEST_FILENAME);
         Assertions.assertTrue(
@@ -30,7 +38,7 @@ class FileServiceTest {
     }
 
     @Test
-    void test_getOrCreateProductFile_path_filename() {
+    void getOrCreateFile() {
         File testFile = FileService.getOrCreateFile(TEST_DIR, TEST_FILENAME);
         Assertions.assertNotNull(testFile);
         Assertions.assertTrue(testFile.isFile());

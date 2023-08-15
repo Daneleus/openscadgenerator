@@ -3,6 +3,7 @@ package com.openscadgenerator.shape;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.number.Greater2IntegerNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
@@ -36,6 +37,11 @@ class CylinderTest {
         ScadString scadString = new Cylinder().height(new PositiveDecimalNumber(50)).generate();
         FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinderHeight");
         Assertions.assertEquals("cylinder(h=50.0000,d=100.0000,$fn=100);", scadString.content());
+    }
+
+    @Test
+    void getCenter() {
+        Assertions.assertEquals(new Tupel3D(0,0,50), new Cylinder().getCenter());
     }
 
     @Test

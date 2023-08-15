@@ -7,7 +7,6 @@ class Greater2IntegerNumberTest {
 
     @Test
     void validate() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Greater2IntegerNumber(0),
-                "value must be greater than 2!");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Greater2IntegerNumber(0));
     }
 }

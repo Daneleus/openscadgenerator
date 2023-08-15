@@ -10,7 +10,7 @@ import com.openscadgenerator.number.NotNegativeDecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 
-public class Cone extends Shape<Cone> {
+public class Cone extends Shape {
 
     private DecimalNumber diameterBottom = new NotNegativeDecimalNumber(100);
 
@@ -50,11 +50,6 @@ public class Cone extends Shape<Cone> {
     @Override
     public boolean isInvalid() {
         return getDiameterBottom().value() <= 0 && getDiameterTop().value() <= 0;
-    }
-
-    @Override
-    public Cone getShape() {
-        return this;
     }
 
     public DecimalNumber getHeight() {

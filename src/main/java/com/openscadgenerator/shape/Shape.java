@@ -3,7 +3,7 @@ package com.openscadgenerator.shape;
 import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.scad.ScadString;
 
-public abstract class Shape<T extends Shape<T>> {
+public abstract class Shape {
 
     public final ScadString generate() {
         ScadString scadString = this.generateShape();
@@ -19,7 +19,5 @@ public abstract class Shape<T extends Shape<T>> {
     public abstract boolean isInvalid();
 
     protected abstract Tupel3D getCenter();
-
-    public abstract T getShape();
 
 }

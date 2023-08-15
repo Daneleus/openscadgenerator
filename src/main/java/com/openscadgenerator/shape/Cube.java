@@ -7,7 +7,7 @@ import com.openscadgenerator.number.DecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 
-public class Cube extends Shape<Cube> {
+public class Cube extends Shape {
     private DecimalNumber length = PositiveDecimalNumber.DEFAULT;
 
     @Override
@@ -23,11 +23,6 @@ public class Cube extends Shape<Cube> {
     @Override
     public boolean isInvalid() {
         return false;
-    }
-
-    @Override
-    public Cube getShape() {
-        return this;
     }
 
     public DecimalNumber getLength() {

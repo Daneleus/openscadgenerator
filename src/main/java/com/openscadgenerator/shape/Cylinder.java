@@ -9,7 +9,7 @@ import com.openscadgenerator.number.IntegerNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
 
-public class Cylinder extends Shape<Cylinder> {
+public class Cylinder extends Shape {
 
     private DecimalNumber diameter = new PositiveDecimalNumber(100);
 
@@ -41,11 +41,6 @@ public class Cylinder extends Shape<Cylinder> {
     @Override
     public boolean isInvalid() {
         return false;
-    }
-
-    @Override
-    public Cylinder getShape() {
-        return this;
     }
 
     public DecimalNumber getHeight() {
