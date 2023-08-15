@@ -24,8 +24,9 @@ class PolyhedronServiceTest {
                         (Math.random() * Math.random() * 100) - Math.random() * 50,
                         (Math.random() * Math.random() * 100) - Math.random() * 50)));
         List<Face> autoFaces = PolyhedronService.autoFacing(points);
-        ScadString scadString = new Polyhedron().points(points).faces(autoFaces).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto_random");
+        Polyhedron autoFacedPolyhedron = new Polyhedron().points(points).faces(autoFaces);
+        ScadString scadString = autoFacedPolyhedron.generate();
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "facesAutoRandom");
     }
 
     @Test
@@ -39,21 +40,23 @@ class PolyhedronServiceTest {
                 new Tupel3D(10, 10, 10)
         );
         List<Face> facesExpected = Arrays.asList(
-                new Face(Arrays.asList(0, 1, 2)),
-                new Face(Arrays.asList(0, 1, 3)),
-                new Face(Arrays.asList(0, 2, 3)),
-                new Face(Arrays.asList(1, 2, 3)),
-                new Face(Arrays.asList(0, 1, 4)),
-                new Face(Arrays.asList(0, 3, 4)),
-                new Face(Arrays.asList(1, 4, 5)),
-                new Face(Arrays.asList(1, 2, 5)),
-                new Face(Arrays.asList(2, 3, 5)),
-                new Face(Arrays.asList(3, 4, 5))
+                new Face(Arrays.asList(1, 0, 2)),
+                new Face(Arrays.asList(1, 0, 3)),
+                new Face(Arrays.asList(2, 1, 3)),
+                new Face(Arrays.asList(4, 0, 1)),
+                new Face(Arrays.asList(2, 0, 3)),
+                new Face(Arrays.asList(5, 1, 2)),
+                new Face(Arrays.asList(5, 2, 3)),
+                new Face(Arrays.asList(5, 3, 4)),
+                new Face(Arrays.asList(3, 0, 4)),
+                new Face(Arrays.asList(4, 1, 5))
         );
         List<Face> autoFaces = PolyhedronService.autoFacing(points);
         ScadString scadString = new Polyhedron().points(points).faces(autoFaces).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "faces_auto");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "facesAuto");
         Assertions.assertEquals(new HashSet<>(facesExpected), new HashSet<>(autoFaces));
+        ScadString scadStringSame = PolyhedronService.autoFacing(new Polyhedron().points(points)).generate();
+        Assertions.assertEquals(scadString, scadStringSame);
     }
 
 }

@@ -12,7 +12,7 @@ class CubeTest {
     @Test
     void defaultValues() {
         ScadString scadString = new Cube().generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cube_default");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cubeDefault");
         Assertions.assertEquals("cube(size=100.0000,center=true);", scadString.content());
     }
 
@@ -24,7 +24,7 @@ class CubeTest {
     @Test
     void length() {
         ScadString scadString = new Cube().length(new PositiveDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cube_Length");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cubeLength");
         Assertions.assertEquals("cube(size=50.0000,center=true);", scadString.content());
     }
 }

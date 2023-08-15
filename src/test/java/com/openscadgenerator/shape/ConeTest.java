@@ -14,35 +14,35 @@ class ConeTest {
     @Test
     void defaultValues() {
         ScadString scadString = new Cone().generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_default");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneDefault");
         Assertions.assertEquals("cylinder(h=100.0000,d1=100.0000,d2=0.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void diameterBottom() {
         ScadString scadString = new Cone().diameterBottom(new NotNegativeDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_diameterBottom");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneDiameterBottom");
         Assertions.assertEquals("cylinder(h=100.0000,d1=50.0000,d2=0.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void diameterTop() {
         ScadString scadString = new Cone().diameterTop(new NotNegativeDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_diameterTop");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneDiameterTop");
         Assertions.assertEquals("cylinder(h=100.0000,d1=100.0000,d2=50.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void fragments() {
         ScadString scadString = new Cone().fragments(new Greater2IntegerNumber(3)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_fragments");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneFragments");
         Assertions.assertEquals("cylinder(h=100.0000,d1=100.0000,d2=0.0000,$fn=3);", scadString.content());
     }
 
     @Test
     void height() {
         ScadString scadString = new Cone().height(new PositiveDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cone_height");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "coneHeight");
         Assertions.assertEquals("cylinder(h=50.0000,d1=100.0000,d2=0.0000,$fn=100);", scadString.content());
     }
 

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.openscadgenerator.geometry.Face;
 import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.scad.ScadString;
+import com.openscadgenerator.service.FileService;
 
 class PolyhedronTest {
 
@@ -41,6 +42,15 @@ class PolyhedronTest {
                 ).generate();
         Assertions.assertEquals(
                 "polyhedron(points=[[0.0,0.0,0.0],[10.0,0.0,0.0],[10.0,10.0,0.0],[0.0,10.0,0.0],[0.0,0.0,10.0],[10.0,10.0,10.0]],faces=[[0,1,2,3],[0,1,4],[0,3,4],[1,4,5],[1,2,5],[2,3,5],[3,4,5]]);",
+                scadString.content());
+    }
+
+    @Test
+    void defaultValues() {
+        ScadString scadString = new Polyhedron().generate();
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "polyhedronDefault");
+        Assertions.assertEquals(
+                "polyhedron(points=[[0.0,0.0,0.0],[10.0,0.0,0.0],[10.0,10.0,0.0],[0.0,10.0,0.0],[0.0,0.0,10.0],[10.0,10.0,10.0]],faces=[[1,0,2],[1,0,3],[4,0,1],[2,0,3],[3,0,4],[2,1,3],[5,1,2],[4,1,5],[5,2,3],[5,3,4]]);",
                 scadString.content());
     }
 

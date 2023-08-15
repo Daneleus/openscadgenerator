@@ -2,6 +2,7 @@ package com.openscadgenerator.shape;
 
 import java.util.Locale;
 
+import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.number.DecimalNumber;
 import com.openscadgenerator.number.PositiveDecimalNumber;
 import com.openscadgenerator.scad.ScadString;
@@ -20,6 +21,21 @@ public class Cuboid extends Shape<Cuboid> {
                         getYLength().value(), getZLength().value()));
     }
 
+    @Override
+    protected Tupel3D getCenter() {
+        return Tupel3D.ORIGIN;
+    }
+
+    @Override
+    public boolean isInvalid() {
+        return false;
+    }
+
+    @Override
+    public Cuboid getShape() {
+        return this;
+    }
+
     public DecimalNumber getXLength() {
         return xLength;
     }
@@ -30,11 +46,6 @@ public class Cuboid extends Shape<Cuboid> {
 
     public DecimalNumber getZLength() {
         return zLength;
-    }
-
-    @Override
-    public boolean isInvalid() {
-        return false;
     }
 
     public Cuboid xLength(PositiveDecimalNumber length) {

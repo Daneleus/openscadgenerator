@@ -1,1 +1,0 @@
-rotate(a=[30.0,60.0,45.0]){cube(size=100.0000,center=true);}

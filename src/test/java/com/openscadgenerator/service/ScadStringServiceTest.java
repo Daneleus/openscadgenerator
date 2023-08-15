@@ -46,7 +46,7 @@ class ScadStringServiceTest {
 
     @Test
     void moveToPosition() {
-        ScadString move = ScadStringService.moveToPosition(new Tupel3D(1, 1, 1), new ScadString("moved"));
+        ScadString move = ScadStringService.moveToPosition(new ScadString("moved"), new Tupel3D(1, 1, 1));
         Assertions.assertEquals("translate([1.0,1.0,1.0]){moved}", move.content());
     }
 
