@@ -6,8 +6,13 @@ import java.util.List;
 
 import com.openscadgenerator.geometry.Face;
 import com.openscadgenerator.geometry.Tupel3D;
+import com.openscadgenerator.shape.Polyhedron;
 
 public class PolyhedronService {
+
+    public static Polyhedron autoFacing(Polyhedron polyhedron) {
+        return polyhedron.faces(autoFacing(polyhedron.getPoints()));
+    }
 
     public static List<Face> autoFacing(List<Tupel3D> points) {
         List<Face> autoFaces = new ArrayList<>();
@@ -17,7 +22,6 @@ public class PolyhedronService {
                 for (int k = j + 1; k < size; k++) {
                     int countPositive = 0;
                     int countNegative = 0;
-                    List<Integer> facePointsCandidate = new ArrayList<>(Arrays.asList(i, j, k));
                     for (int l = 0; l < size; l++) {
                         if (l == i || l == j || l == k) {
                             continue;
@@ -32,8 +36,11 @@ public class PolyhedronService {
                             countNegative++;
                         }
                     }
-                    if (countPositive == 0 || countNegative == 0) {
-                        autoFaces.add(new Face(facePointsCandidate));
+                    if (countPositive == 0) {
+                        autoFaces.add(new Face(new ArrayList<>(Arrays.asList(k, i, j))));
+                    }
+                    if (countNegative == 0) {
+                        autoFaces.add(new Face(new ArrayList<>(Arrays.asList(j, i, k))));
                     }
                 }
             }

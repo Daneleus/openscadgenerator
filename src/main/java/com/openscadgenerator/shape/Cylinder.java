@@ -2,6 +2,7 @@ package com.openscadgenerator.shape;
 
 import java.util.Locale;
 
+import com.openscadgenerator.geometry.Tupel3D;
 import com.openscadgenerator.number.DecimalNumber;
 import com.openscadgenerator.number.Greater2IntegerNumber;
 import com.openscadgenerator.number.IntegerNumber;
@@ -33,8 +34,18 @@ public class Cylinder extends Shape<Cylinder> {
     }
 
     @Override
+    protected Tupel3D getCenter() {
+        return new Tupel3D(0, 0, getHeight().value() / 2.0);
+    }
+
+    @Override
     public boolean isInvalid() {
         return false;
+    }
+
+    @Override
+    public Cylinder getShape() {
+        return this;
     }
 
     public DecimalNumber getHeight() {

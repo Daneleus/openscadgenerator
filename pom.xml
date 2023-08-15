@@ -9,10 +9,10 @@
 	<description>A Tool for generating .scad Code with Java</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>16</java.version>
-		<maven.compiler.source>16</maven.compiler.source>
-		<maven.compiler.target>16</maven.compiler.target>
-		<maven.compiler.release>16</maven.compiler.release>
+		<java.version>19</java.version>
+		<maven.compiler.source>19</maven.compiler.source>
+		<maven.compiler.target>19</maven.compiler.target>
+		<maven.compiler.release>19</maven.compiler.release>
 	</properties>
 	<dependencies>
 		<!-- Fileoperations -->

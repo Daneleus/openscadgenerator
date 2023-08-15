@@ -13,28 +13,28 @@ class CylinderTest {
     @Test
     void defaultValues() {
         ScadString scadString = new Cylinder().generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_default");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinderDefault");
         Assertions.assertEquals("cylinder(h=100.0000,d=100.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void diameter() {
         ScadString scadString = new Cylinder().diameter(new PositiveDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_diameter");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinderDiameter");
         Assertions.assertEquals("cylinder(h=100.0000,d=50.0000,$fn=100);", scadString.content());
     }
 
     @Test
     void fragments() {
         ScadString scadString = new Cylinder().fragments(new Greater2IntegerNumber(3)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_fragments");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinderFragments");
         Assertions.assertEquals("cylinder(h=100.0000,d=100.0000,$fn=3);", scadString.content());
     }
 
     @Test
     void height() {
         ScadString scadString = new Cylinder().height(new PositiveDecimalNumber(50)).generate();
-        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinder_height");
+        FileService.writeScadStringToFile(scadString, "src\\test\\samples", "cylinderHeight");
         Assertions.assertEquals("cylinder(h=50.0000,d=100.0000,$fn=100);", scadString.content());
     }
 

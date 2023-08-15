@@ -13,7 +13,7 @@ public class ScadStringService {
         return new ScadString("intersection(){" + scadString1.content() + "" + scadString2.content() + "}");
     }
 
-    public static ScadString moveToPosition(Tupel3D point3D, ScadString scadString) {
+    public static ScadString moveToPosition(ScadString scadString, Tupel3D point3D) {
         return new ScadString("translate(" + point3D + "){" + scadString.content() + "}");
     }
 
