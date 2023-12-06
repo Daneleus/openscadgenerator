@@ -2,10 +2,7 @@
 target/
 
 #Intellij IDEA
-/.idea/jarRepositories.xml
-/.idea/php.xml
-/.idea/uiDesigner.xml
-/.idea/workspace.xml
+.idea/
 
 #Random SCAD
 /src/test/samples/facesAutoRandom.scad
